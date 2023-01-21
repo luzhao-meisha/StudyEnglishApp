@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">StudyEnglishApp</string>
+    <string name="title">Study English!</string>
+    <string name="word_book">単語帳</string>
+    <string name="check">チェック</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
