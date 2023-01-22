@@ -7,14 +7,12 @@
     tools:context=".MainActivity">
 
     <fragment
-        android:id="@+id/menu_fragment"
+        android:id="@+id/main_nav_host"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:name="com.bambi.studyenglishapp.MenuFragment"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:navGraph="@navigation/nav_host"
+        app:defaultNavHost="true" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

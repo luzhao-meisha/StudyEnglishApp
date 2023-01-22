@@ -3,6 +3,10 @@
     <string name="title">Study English!</string>
     <string name="word_book">単語帳</string>
     <string name="check">チェック</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="sort_array">
+        <item>アルファベット順</item>
+        <item>追加日順</item>
+        <item>間違いが多い順</item>
+    </string-array>
 </resources>
