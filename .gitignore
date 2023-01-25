@@ -2,6 +2,7 @@
 <<<<<<< HEAD
 *.iml
 .gradle
+gradle.properties
 /local.properties
 /.idea/caches
 /.idea/libraries
