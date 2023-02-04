@@ -32,7 +32,7 @@
 
     <Button
         android:id="@+id/word_book_button"
-        style="@style/MenuButton"
+        style="@style/menu_button"
         android:text="@string/word_book"
         android:background="@drawable/menu_button"
         app:icon="@drawable/word_book_icon"
@@ -44,7 +44,7 @@
 
     <Button
         android:id="@+id/check_button"
-        style="@style/MenuButton"
+        style="@style/menu_button"
         android:text="@string/check"
         app:icon="@drawable/check_icon"
         app:iconGravity="start"

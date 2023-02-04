@@ -1,5 +1,6 @@
 package com.bambi.studyenglishapp
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,9 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.bambi.studyenglishapp.adapter.WordListAdapter
 import com.bambi.studyenglishapp.databinding.FragmentWordBookBinding
+import com.google.gson.Gson
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.json.JSONArray
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Retrofit
@@ -56,7 +62,30 @@ class WordBookFragment : Fragment() {
 
         service.items().enqueue(object : Callback<WordList> {
             override fun onResponse(call: Call<WordList?>, response: retrofit2.Response<WordList?>) {
-                val demo: WordList? = response.body()
+
+                if (response.isSuccessful) {
+                    response.body()?.let {
+
+                        //データ取得
+                        val demo = response.body()?.values
+
+                        //リストに格納
+                        val wordDataList = mutableListOf<WordData>()
+                        for (i in demo!!.iterator().withIndex()) {
+                            wordDataList.add(i.index, WordData(i.value[0], i.value[1], i.value[2]))
+                        }
+                        Log.d("d", wordDataList.toString())
+
+                        //RecyclerViewで表示
+
+                        val wordrv = binding.wordRv
+                        wordrv.adapter = WordListAdapter(wordDataList)
+                        wordrv.layoutManager = LinearLayoutManager(requireContext())
+
+
+                    }
+                }
+
             }
 
             override fun onFailure(call: Call<WordList?>, t: Throwable) {
