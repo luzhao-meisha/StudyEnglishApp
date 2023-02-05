@@ -9,4 +9,6 @@
         <item>追加日順</item>
         <item>間違いが多い順</item>
     </string-array>
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

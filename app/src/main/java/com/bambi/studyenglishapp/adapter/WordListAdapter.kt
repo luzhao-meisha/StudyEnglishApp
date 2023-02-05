@@ -3,6 +3,7 @@ package com.bambi.studyenglishapp.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView.OnItemClickListener
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bambi.studyenglishapp.R
@@ -11,6 +12,8 @@ import okhttp3.internal.wait
 
 
 class WordListAdapter(private val wordList: MutableList<WordData>): RecyclerView.Adapter<ViewHolderItem>() {
+
+    lateinit var listener:OnItemClickListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderItem {
 
@@ -23,11 +26,26 @@ class WordListAdapter(private val wordList: MutableList<WordData>): RecyclerView
         holder.word.text = wordList[position].english
         holder.meaning.text = wordList[position].japanese
         holder.sentence.text = wordList[position].sentence
+
+        holder.itemView.setOnClickListener {
+            listener.onItemClickListener(it, position)
+        }
     }
 
     override fun getItemCount(): Int {
         return wordList.size
     }
+
+    //インターフェースの作成
+    interface OnItemClickListener{
+        fun onItemClickListener(view: View, position: Int)
+    }
+
+    // リスナー
+    fun setOnItemClickListener(listener: OnItemClickListener){
+        this.listener = listener
+    }
+
 }
 
 class ViewHolderItem(itemView: View) :RecyclerView.ViewHolder(itemView){

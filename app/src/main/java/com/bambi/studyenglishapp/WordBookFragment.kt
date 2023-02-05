@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -77,10 +78,21 @@ class WordBookFragment : Fragment() {
                         Log.d("d", wordDataList.toString())
 
                         //RecyclerViewで表示
-
                         val wordrv = binding.wordRv
-                        wordrv.adapter = WordListAdapter(wordDataList)
+                        val adapter = WordListAdapter(wordDataList)
+                        wordrv.adapter = adapter
                         wordrv.layoutManager = LinearLayoutManager(requireContext())
+
+
+                        adapter.setOnItemClickListener(object:WordListAdapter.OnItemClickListener{
+                            override fun onItemClickListener(view: View, position: Int) {
+
+
+                                val bundle = bundleOf("word" to wordDataList[position].english,"meaning" to wordDataList[position].japanese,"sentence" to wordDataList[position].sentence)
+                                    findNavController().navigate(R.id.action_wordBookFragment_to_wordDetailsFragment,bundle)
+
+                            }
+                        })
 
 
                     }

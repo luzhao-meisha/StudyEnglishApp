@@ -18,6 +18,14 @@
         <action
             android:id="@+id/action_wordBookFragment_to_menuFragment"
             app:destination="@id/menuFragment" />
+        <action
+            android:id="@+id/action_wordBookFragment_to_wordDetailsFragment"
+            app:destination="@id/wordDetailsFragment">
+        </action>
     </fragment>
-
+    <fragment
+        android:id="@+id/wordDetailsFragment"
+        android:name="com.bambi.studyenglishapp.WordDetailsFragment"
+        android:label="fragment_word_details">
+    </fragment>
 </navigation>
