@@ -11,7 +11,7 @@ import com.bambi.studyenglishapp.WordData
 import okhttp3.internal.wait
 
 
-class WordListAdapter(private val wordList: MutableList<WordData>): RecyclerView.Adapter<ViewHolderItem>() {
+class WordListAdapter(private val wordList: List<WordData>): RecyclerView.Adapter<ViewHolderItem>() {
 
     lateinit var listener:OnItemClickListener
 

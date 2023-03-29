@@ -18,14 +18,18 @@ class WordDetailsFragment : Fragment() {
     ): View? {
         binding = FragmentWordDetailsBinding.inflate(layoutInflater)
 
-        val word = arguments?.getString("word")
-        val meaning = arguments?.getString("meaning")
-        val sentence = arguments?.getString("sentence")
+        val position = arguments?.getInt("position")
 
-        binding.word.text = word
-        binding.meaning.text = meaning
-        binding.sentence.text = sentence
-
+//        val realm = Realm.getDefaultInstance()
+//        val wordDataList = realm.where(RealmWordData::class.java).findAll()
+//
+//        position?.let {
+//            binding.word.text = wordDataList[it]?.english
+//            binding.meaning.text = wordDataList[it]?.japanese
+//            binding.sentence.text = wordDataList[it]?.sentence
+//        }
+//
+//        realm.close()
 
         return binding.root
     }
