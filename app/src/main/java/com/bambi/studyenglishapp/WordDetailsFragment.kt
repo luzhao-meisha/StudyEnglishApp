@@ -5,8 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import com.bambi.studyenglishapp.databinding.FragmentWordBookBinding
 import com.bambi.studyenglishapp.databinding.FragmentWordDetailsBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class WordDetailsFragment : Fragment() {
 
@@ -18,21 +22,35 @@ class WordDetailsFragment : Fragment() {
     ): View? {
         binding = FragmentWordDetailsBinding.inflate(layoutInflater)
 
-        val position = arguments?.getInt("position")
-
-//        val realm = Realm.getDefaultInstance()
-//        val wordDataList = realm.where(RealmWordData::class.java).findAll()
-//
-//        position?.let {
-//            binding.word.text = wordDataList[it]?.english
-//            binding.meaning.text = wordDataList[it]?.japanese
-//            binding.sentence.text = wordDataList[it]?.sentence
-//        }
-//
-//        realm.close()
 
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // 非同期処理でデータを取得する
+        lifecycleScope.launch {
+
+                displayDetails()
+        }
+    }
+
+
+    private suspend fun displayDetails() {
+        withContext(Dispatchers.IO) {
+            val position = arguments?.getInt("position")
+
+            // Roomデータベースにあるデータを取得
+            val db = WordDatabase.getInstance(requireContext())
+
+            position?.let {
+                binding.word.text = db.wordDataDao().getEnglishNameById(it)
+                binding.meaning.text = db.wordDataDao().getJapaneseNameById(it)
+                binding.sentence.text = db.wordDataDao().getSentenceById(it)
+            }
+
+        }
+    }
 
 }

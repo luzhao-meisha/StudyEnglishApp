@@ -8,13 +8,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room.Room
 import com.bambi.studyenglishapp.adapter.WordListAdapter
 import com.bambi.studyenglishapp.databinding.FragmentWordBookBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -28,6 +32,8 @@ interface ItemInterface {
     suspend fun getWordList(): WordList
 }
 
+
+lateinit var service: ItemInterface
 
 class WordBookFragment : Fragment() {
 
@@ -56,15 +62,33 @@ class WordBookFragment : Fragment() {
             .build()
 
 
-        val service: ItemInterface = retrofit.create(ItemInterface::class.java)
+        service = retrofit.create(ItemInterface::class.java)
 
+        return view
+    }
 
-        //Roomを初期化
-//        val db = Initialize.database
-        val db = WordDatabase.getInstance(requireContext())
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         // 非同期処理でデータを取得する
         lifecycleScope.launch {
+            //データ取得
+            val getData = getData()
+
+            //recyclerviewを描画
+            displayList(getData)
+
+            //Roomにデータ書き込み
+            writeWordDatabase(getData)
+        }
+    }
+
+    //データ取得
+    private suspend fun getData(): List<WordData> {
+
+        var returnList: List<WordData>
+
+        withContext(Dispatchers.IO) {
             val wordList = service.getWordList().values
 
             // SpreadsheetDataオブジェクトのリストに変換する
@@ -79,34 +103,47 @@ class WordBookFragment : Fragment() {
                 dataList.add(data)
             }
 
-            // Roomデータベースにデータを保存する
-            db.wordDataDao().insertAll(dataList)
-
-//            // Roomデータベースにあるデータを取得
-//            val getData = db.wordDataDao().getAllWordData()
-
-
-            binding.wordRv.apply {
-                layoutManager = LinearLayoutManager(requireContext())
-//                binding.wordRv.apply {
-//                    adapter = WordListAdapter(getData).apply {
-//                        setOnItemClickListener(object :
-//                            WordListAdapter.OnItemClickListener {
-//                            override fun onItemClickListener(view: View, position: Int) {
-//                                val bundle = bundleOf("position" to position)
-//                                findNavController().navigate(
-//                                    R.id.action_wordBookFragment_to_wordDetailsFragment,
-//                                    bundle
-//                                )
-//                            }
-//                        })
-//                    }
-//                    layoutManager = LinearLayoutManager(requireContext())
-//                }
-            }
+            returnList = dataList
         }
 
+        return returnList
 
-        return view
     }
+
+
+    //recyclerview描画
+    private suspend fun displayList(getData: List<WordData>) {
+        binding.wordRv.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            binding.wordRv.apply {
+                adapter = WordListAdapter(getData).apply {
+                    setOnItemClickListener(object :
+                        WordListAdapter.OnItemClickListener {
+                        override fun onItemClickListener(view: View, position: Int) {
+                            val bundle = bundleOf("position" to position)
+                            findNavController().navigate(
+                                R.id.action_wordBookFragment_to_wordDetailsFragment,
+                                bundle
+                            )
+                        }
+                    })
+                }
+                layoutManager = LinearLayoutManager(requireContext())
+            }
+        }
+    }
+
+    //Room WordDatabaseに格納
+    suspend fun writeWordDatabase(getData: List<WordData>) {
+
+        withContext(Dispatchers.IO) {
+            //Roomを初期化
+            val db = WordDatabase.getInstance(requireContext())
+            // Roomデータベースにデータを保存する
+            db.wordDataDao().insertAll(getData)
+        }
+
+    }
+
+
 }

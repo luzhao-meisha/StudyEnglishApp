@@ -15,7 +15,7 @@ class CheckFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         binding = FragmentCheckBinding.inflate(layoutInflater)
         return  binding.root
