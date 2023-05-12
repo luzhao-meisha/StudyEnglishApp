@@ -31,7 +31,6 @@ class WordDetailsFragment : Fragment() {
 
         // 非同期処理でデータを取得する
         lifecycleScope.launch {
-
                 displayDetails()
         }
     }

@@ -10,6 +10,9 @@
         <action
             android:id="@+id/action_menuFragment_to_wordBookFragment"
             app:destination="@id/wordBookFragment" />
+        <action
+            android:id="@+id/action_menuFragment_to_checkFragment"
+            app:destination="@id/checkFragment" />
     </fragment>
     <fragment
         android:id="@+id/wordBookFragment"
@@ -22,6 +25,11 @@
             android:id="@+id/action_wordBookFragment_to_wordDetailsFragment"
             app:destination="@id/wordDetailsFragment">
         </action>
+    </fragment>
+    <fragment
+        android:id="@+id/checkFragment"
+        android:name="com.bambi.studyenglishapp.CheckFragment"
+        android:label="fragment_check">
     </fragment>
     <fragment
         android:id="@+id/wordDetailsFragment"

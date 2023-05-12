@@ -26,6 +26,11 @@ class MenuFragment : Fragment() {
 
         }
 
+        binding.checkButton.setOnClickListener {
+            findNavController().navigate(R.id.action_menuFragment_to_checkFragment)
+
+        }
+
         return view
     }
 
