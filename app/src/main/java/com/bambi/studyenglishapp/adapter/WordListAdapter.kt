@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView.OnItemClickListener
 import android.widget.TextView
+import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.bambi.studyenglishapp.R
 import com.bambi.studyenglishapp.WordData
@@ -23,6 +24,7 @@ class WordListAdapter(private val wordList: List<WordData>): RecyclerView.Adapte
     }
 
     override fun onBindViewHolder(holder: ViewHolderItem, position: Int) {
+//        val wordList = wordList.value?.get(position) ?: WordData()
         holder.word.text = wordList[position].english
         holder.meaning.text = wordList[position].japanese
         holder.sentence.text = wordList[position].sentence
@@ -34,6 +36,7 @@ class WordListAdapter(private val wordList: List<WordData>): RecyclerView.Adapte
 
     override fun getItemCount(): Int {
         return wordList.size
+//        return wordList.value?.size ?: 0
     }
 
     //インターフェースの作成

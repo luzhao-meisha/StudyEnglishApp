@@ -59,5 +59,5 @@ class CheckFragment : Fragment() {
 
         }
     }
-
 }
+
