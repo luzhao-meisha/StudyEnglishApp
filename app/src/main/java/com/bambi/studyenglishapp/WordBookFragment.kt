@@ -4,17 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room.Room
 import com.bambi.studyenglishapp.adapter.WordListAdapter
 import com.bambi.studyenglishapp.databinding.FragmentWordBookBinding
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 
 class WordBookFragment : Fragment() {
@@ -53,24 +48,10 @@ class WordBookFragment : Fragment() {
         words.observe(viewLifecycleOwner) { wordData ->
             getData = wordData
 
-        //recyclerview描画
+            //recyclerview描画
             binding.wordRv.apply {
+                adapter = WordListAdapter(getData)
                 layoutManager = LinearLayoutManager(requireContext())
-                binding.wordRv.apply {
-                    adapter = WordListAdapter(getData).apply {
-                        setOnItemClickListener(object :
-                            WordListAdapter.OnItemClickListener {
-                            override fun onItemClickListener(view: View, position: Int) {
-                                val bundle = bundleOf("position" to position)
-                                findNavController().navigate(
-                                    R.id.action_wordBookFragment_to_wordDetailsFragment,
-                                    bundle
-                                )
-                            }
-                        })
-                    }
-                    layoutManager = LinearLayoutManager(requireContext())
-                }
             }
         }
     }

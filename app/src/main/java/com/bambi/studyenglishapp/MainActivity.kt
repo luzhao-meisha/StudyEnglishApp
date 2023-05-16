@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
+        //API通信
         val baseApiUrl = "https://sheets.googleapis.com/v4/spreadsheets/"
 
         val httpLogging = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
@@ -43,9 +44,6 @@ class MainActivity : AppCompatActivity() {
             //データ取得
             val getData = getData()
 
-//            //recyclerviewを描画
-//            displayList(getData)
-
             //Roomにデータ書き込み
             writeWordDatabase(getData)
         }
@@ -62,6 +60,7 @@ class MainActivity : AppCompatActivity() {
             // SpreadsheetDataオブジェクトのリストに変換する
             val dataList = mutableListOf<WordData>()
             wordList.forEachIndexed { index, row ->
+                if(index == 0) return@forEachIndexed //1列目はkeyのため格納しない
                 val data = WordData(
                     id = index.toLong(),
                     english = row[0],

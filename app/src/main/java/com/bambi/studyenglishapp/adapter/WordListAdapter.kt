@@ -5,7 +5,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView.OnItemClickListener
 import android.widget.TextView
+import androidx.core.os.bundleOf
 import androidx.lifecycle.LiveData
+import androidx.navigation.Navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bambi.studyenglishapp.R
 import com.bambi.studyenglishapp.WordData
@@ -30,7 +32,8 @@ class WordListAdapter(private val wordList: List<WordData>): RecyclerView.Adapte
         holder.sentence.text = wordList[position].sentence
 
         holder.itemView.setOnClickListener {
-            listener.onItemClickListener(it, position)
+            val bundle = bundleOf("position" to position + 1)
+            findNavController(it).navigate(R.id.action_wordBookFragment_to_wordDetailsFragment, bundle)
         }
     }
 
@@ -39,15 +42,15 @@ class WordListAdapter(private val wordList: List<WordData>): RecyclerView.Adapte
 //        return wordList.value?.size ?: 0
     }
 
-    //インターフェースの作成
-    interface OnItemClickListener{
-        fun onItemClickListener(view: View, position: Int)
-    }
+//    //インターフェースの作成
+//    interface OnItemClickListener{
+//        fun onItemClickListener(view: View, position: Int)
+//    }
 
-    // リスナー
-    fun setOnItemClickListener(listener: OnItemClickListener){
-        this.listener = listener
-    }
+//    // リスナー
+//    fun setOnItemClickListener(listener: OnItemClickListener){
+//        this.listener = listener
+//    }
 
 }
 

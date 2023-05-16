@@ -24,7 +24,7 @@ interface WordDataDao {
     suspend fun get(key: Long): WordData?
 
     /**全てのデータ取得*/
-    @Query("SELECT * FROM word_data_table ORDER BY id DESC")
+    @Query("SELECT * FROM word_data_table ORDER BY id ASC")
     fun getAllWordData(): LiveData<List<WordData>>
 
     /**レコード数取得*/
