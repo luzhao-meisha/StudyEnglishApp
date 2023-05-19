@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
             // SpreadsheetDataオブジェクトのリストに変換する
             val dataList = mutableListOf<WordData>()
             wordList.forEachIndexed { index, row ->
-                if(index == 0) return@forEachIndexed //1列目はkeyのため格納しない
+                if(index == 0) return@forEachIndexed //1列目はkeyのためは格納しない
                 val data = WordData(
                     id = index.toLong(),
                     english = row[0],

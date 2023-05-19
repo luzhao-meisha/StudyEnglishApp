@@ -30,6 +30,10 @@
         android:id="@+id/checkFragment"
         android:name="com.bambi.studyenglishapp.CheckFragment"
         android:label="fragment_check">
+        <action
+            android:id="@+id/action_checkFragment_to_menuFragment"
+            app:destination="@id/menuFragment">
+        </action>
     </fragment>
     <fragment
         android:id="@+id/wordDetailsFragment"
