@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="menu_button">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
@@ -8,6 +9,12 @@
         <item name="backgroundTint">#f4fbfb</item>
         <item name="android:textSize">35sp</item>
         <item name="android:textColor">#808080</item>
+    </style>
+
+    <style name="select_button" parent="menu_button">
+        <item name="android:layout_marginTop">40dp</item>
+        <item name="android:layout_height">75dp</item>
+        <item name="android:textSize">20sp</item>
     </style>
 
     <style name="word_style">
