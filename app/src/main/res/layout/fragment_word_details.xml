@@ -6,6 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".WordDetailsFragment">
 
+    <ImageButton
+        android:id="@+id/back_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/back_icon"
+        android:background="@color/wall_color"
+        android:layout_margin="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"

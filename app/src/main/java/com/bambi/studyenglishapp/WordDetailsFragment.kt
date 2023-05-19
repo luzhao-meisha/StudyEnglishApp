@@ -33,6 +33,9 @@ class WordDetailsFragment : Fragment() {
         lifecycleScope.launch {
                 displayDetails()
         }
+        binding.backButton.setOnClickListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
     }
 
 
