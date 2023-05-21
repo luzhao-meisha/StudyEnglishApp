@@ -1,11 +1,13 @@
 package com.bambi.studyenglishapp
 
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.room.Room
@@ -44,13 +46,19 @@ class CheckFragment : Fragment() {
             wordDataDao = db.wordDataDao()
 
             displayQuiz()
-
         }
+
 
         //ホームボタン
         binding.homeButton.setOnClickListener {
             Navigation.findNavController(it).navigate(R.id.action_checkFragment_to_menuFragment)
         }
+
+        binding.nextButton.setOnClickListener {
+            moveToNextQuiz()
+        }
+
+
     }
 
     /**
@@ -68,17 +76,17 @@ class CheckFragment : Fragment() {
 
             /**ランダムに問題となる単語とその意味を取得*/
             //ランダムな数を生成
-            var random = size.let { Random.nextInt(1, it) }
-            randomNumberList.add(random)
+            val correctRandom = size.let { Random.nextInt(1, it) }
+            randomNumberList.add(correctRandom)
             //英単語
-            val englishWord = wordDataDao.getEnglishNameById(random)
+            val englishWord = wordDataDao.getEnglishNameById(correctRandom)
             //意味
             val japaneseWordList = mutableListOf<String>()
-            japaneseWordList.add(wordDataDao.getJapaneseNameById(random))
+            japaneseWordList.add(wordDataDao.getJapaneseNameById(correctRandom))
 
             /**ランダムに意味を取得*/
             for (i in 0..2) {
-                random = size.let { Random.nextInt(1, it) }
+                val random = size.let { Random.nextInt(1, it) }
                 randomNumberList.add(random)
                 japaneseWordList.add(wordDataDao.getJapaneseNameById(random))
             }
@@ -110,7 +118,31 @@ class CheckFragment : Fragment() {
                     val randomWord = japaneseWordList[randomIndex]
                     selectionList[i].text = randomWord
                 }
+
+                //正誤チェック
+                selectionList.forEachIndexed { index, word ->
+                    word.setOnClickListener {
+                        if (word.text.toString() == japaneseWordList[0]) {
+                            binding.correct.visibility = View.VISIBLE
+                            binding.incorrect.visibility = View.GONE
+                        } else {
+                            binding.incorrect.visibility = View.VISIBLE
+                            binding.correct.visibility = View.GONE
+
+                        }
+                    }
+                }
             }
+
+        }
+    }
+
+    //次のクイズを表示する
+    private fun moveToNextQuiz() {
+        lifecycleScope.launch {
+            binding.correct.visibility = View.GONE
+            binding.incorrect.visibility = View.GONE
+            displayQuiz()
         }
     }
 }
