@@ -91,6 +91,43 @@
         app:layout_constraintTop_toBottomOf="@id/word_2"
         tools:text="選択肢0"/>
 
+    <ImageView
+        android:id="@+id/correct"
+        style="@style/quiz_result"
+        android:src="@drawable/correct"
+        android:backgroundTint="@color/transparent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="gone"
+        tools:visibility="visible"
+        />
+
+    <ImageView
+        android:id="@+id/incorrect"
+        style="@style/quiz_result"
+        android:backgroundTint="@color/transparent"
+        android:src="@drawable/incorrect"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+
+    <ImageButton
+        android:id="@+id/next_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/next_icon"
+        android:background="@color/wall_color"
+        android:layout_margin="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
