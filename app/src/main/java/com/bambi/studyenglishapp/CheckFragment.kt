@@ -140,10 +140,14 @@ class CheckFragment : Fragment() {
     //次のクイズを表示する
     private fun moveToNextQuiz() {
         lifecycleScope.launch {
-            binding.correct.visibility = View.GONE
-            binding.incorrect.visibility = View.GONE
+            reset()
             displayQuiz()
         }
+    }
+
+    private fun reset(){
+        binding.correct.visibility = View.GONE
+        binding.incorrect.visibility = View.GONE
     }
 }
 
