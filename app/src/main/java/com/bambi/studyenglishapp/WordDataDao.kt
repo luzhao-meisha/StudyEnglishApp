@@ -25,7 +25,7 @@ interface WordDataDao {
 
     /**全てのデータ取得*/
     @Query("SELECT * FROM word_data_table ORDER BY id ASC")
-    fun getAllWordData(): LiveData<List<WordData>>
+    fun getAllWordData(): List<WordData>
 
     /**レコード数取得*/
     @Query("SELECT COUNT(*) FROM word_data_table")
@@ -33,7 +33,11 @@ interface WordDataDao {
 
     /**全ての日本語のデータ取得*/
     @Query("SELECT japanese FROM word_data_table ORDER BY id DESC")
-    fun getAllJapaneseData(): LiveData<List<String>>
+    fun getAllJapaneseData(): List<String>
+
+    /**全ての英語のデータ取得*/
+    @Query("SELECT english FROM word_data_table ORDER BY id ASC")
+    fun getAllEnglishData(): List<String>
 
     /**特定の日本語を取得*/
     @Query("SELECT japanese FROM word_data_table WHERE id = :key")

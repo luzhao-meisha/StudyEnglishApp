@@ -61,9 +61,7 @@ class CheckFragment : Fragment() {
 
     }
 
-    /**
-     * 問題を作成する
-     * */
+    /** 問題を作成する **/
     private suspend fun displayQuiz() {
         withContext(Dispatchers.IO) {
 
@@ -72,24 +70,10 @@ class CheckFragment : Fragment() {
             Log.d("レコードの総数", size.toString())
 
 
-            val randomNumberList = mutableListOf<Int>()
-
-            /**ランダムに問題となる単語とその意味を取得*/
-            //ランダムな数を生成
-            val correctRandom = size.let { Random.nextInt(1, it) }
-            randomNumberList.add(correctRandom)
-            //英単語
-            val englishWord = wordDataDao.getEnglishNameById(correctRandom)
-            //意味
-            val japaneseWordList = mutableListOf<String>()
-            japaneseWordList.add(wordDataDao.getJapaneseNameById(correctRandom))
-
-            /**ランダムに意味を取得*/
-            for (i in 0..2) {
-                val random = size.let { Random.nextInt(1, it) }
-                randomNumberList.add(random)
-                japaneseWordList.add(wordDataDao.getJapaneseNameById(random))
-            }
+            //全ての英単語
+            val wordList = wordDataDao.getAllWordData().toMutableList().apply { shuffle() }
+            //ランダムに抽出した4つ
+            val shuffledList = wordList.take(4)
 
             // 選択肢4つのButtonリスト作成
             val selectionList = mutableListOf(
@@ -99,30 +83,21 @@ class CheckFragment : Fragment() {
                 binding.word3,
             )
 
+            //ランダムに選ばれた文字列をセット
+            for (i in selectionList.indices) {
+                selectionList[i].text = shuffledList[i].japanese
+            }
 
             withContext(Dispatchers.Main) {
-                binding.word.text = englishWord
 
-                //重複を許さずに要素を選択するために、ランダムなインデックスのリストを作成し
-                val uniqueIndices = mutableListOf<Int>()
-                while (uniqueIndices.size < selectionList.size) {
-                    val randomIndex = Random.nextInt(japaneseWordList.size)
-                    if (uniqueIndices.contains(randomIndex).not()) {
-                        uniqueIndices.add(randomIndex)
-                    }
-                }
-
-                // ランダムに選ばれた文字列をセット
-                for (i in selectionList.indices) {
-                    val randomIndex = uniqueIndices[i]
-                    val randomWord = japaneseWordList[randomIndex]
-                    selectionList[i].text = randomWord
-                }
+                //クイズ対象の英語
+                val randomNum = Random.nextInt(0, 4)
+                binding.word.text = shuffledList[randomNum].english
 
                 //正誤チェック
-                selectionList.forEachIndexed { index, word ->
-                    word.setOnClickListener {
-                        if (word.text.toString() == japaneseWordList[0]) {
+                selectionList.forEach { wordButton ->
+                    wordButton.setOnClickListener {
+                        if (wordButton.text.toString() == shuffledList[randomNum].japanese) {
                             binding.correct.visibility = View.VISIBLE
                             binding.incorrect.visibility = View.GONE
                         } else {
@@ -133,11 +108,11 @@ class CheckFragment : Fragment() {
                     }
                 }
             }
-
         }
+
     }
 
-    //次のクイズを表示する
+    /** 次のクイズを表示する **/
     private fun moveToNextQuiz() {
         lifecycleScope.launch {
             reset()
@@ -145,7 +120,8 @@ class CheckFragment : Fragment() {
         }
     }
 
-    private fun reset(){
+    /** 初期化 **/
+    private fun reset() {
         binding.correct.visibility = View.GONE
         binding.incorrect.visibility = View.GONE
     }
