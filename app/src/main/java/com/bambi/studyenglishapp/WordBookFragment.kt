@@ -6,17 +6,21 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room.Room
 import com.bambi.studyenglishapp.adapter.WordListAdapter
 import com.bambi.studyenglishapp.databinding.FragmentWordBookBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class WordBookFragment : Fragment() {
 
     private lateinit var binding: FragmentWordBookBinding
-    private lateinit var getData: List<WordData>
+    private lateinit var wordData: List<WordData>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,23 +47,24 @@ class WordBookFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         //Roomからwordデータ取得
-        val db = Room.databaseBuilder(
-            requireContext(),
-            WordDatabase::class.java,
-            "word_database"
-        ).build()
+        lifecycleScope.launch {
+            withContext(Dispatchers.IO) {
+                val db = Room.databaseBuilder(
+                    requireContext(),
+                    WordDatabase::class.java,
+                    "word_database"
+                ).build()
 
-        val wordDao = db.wordDataDao()
-        val words = wordDao.getAllWordData()
-
-
-        words.observe(viewLifecycleOwner) { wordData ->
-            getData = wordData
+                val wordDao = db.wordDataDao()
+                wordData = wordDao.getAllWordData()
+            }
 
             //recyclerview描画
-            binding.wordRv.apply {
-                adapter = WordListAdapter(getData)
-                layoutManager = LinearLayoutManager(requireContext())
+            withContext(Dispatchers.Main) {
+                binding.wordRv.apply {
+                    adapter = WordListAdapter(wordData)
+                    layoutManager = LinearLayoutManager(requireContext())
+                }
             }
         }
     }
