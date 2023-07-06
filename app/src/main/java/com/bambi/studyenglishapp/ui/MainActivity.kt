@@ -1,8 +1,11 @@
-package com.bambi.studyenglishapp
+package com.bambi.studyenglishapp.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
+import com.bambi.studyenglishapp.ItemInterface
+import com.bambi.studyenglishapp.model.WordData
+import com.bambi.studyenglishapp.model.WordDatabase
 import com.bambi.studyenglishapp.databinding.ActivityMainBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -36,7 +39,6 @@ class MainActivity : AppCompatActivity() {
             .client(httpClientBuilder.build())
             .build()
 
-
         service = retrofit.create(ItemInterface::class.java)
 
         // 非同期処理でデータを取得する
@@ -60,7 +62,7 @@ class MainActivity : AppCompatActivity() {
             // SpreadsheetDataオブジェクトのリストに変換する
             val dataList = mutableListOf<WordData>()
             wordList.forEachIndexed { index, row ->
-                if(index == 0) return@forEachIndexed //1列目はkeyのためは格納しない
+                if(index == 0) return@forEachIndexed //1列目はkeyのため格納しない
                 val data = WordData(
                     id = index.toLong(),
                     english = row[0],
