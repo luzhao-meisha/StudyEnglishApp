@@ -1,10 +1,14 @@
 package com.bambi.studyenglishapp.ui.check
 
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.bambi.studyenglishapp.R
@@ -21,6 +25,9 @@ class CheckFragment : Fragment() {
     private lateinit var binding: FragmentCheckBinding
     private lateinit var viewModel: CheckViewModel
 
+    // 選択肢4つのButtonリスト作成
+    private val selectionList = mutableListOf<Button>()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,6 +38,11 @@ class CheckFragment : Fragment() {
         binding = FragmentCheckBinding.inflate(layoutInflater)
         val wordDataDao = WordDatabase.getInstance(requireContext()).wordDataDao()
         viewModel = CheckViewModel(wordDataDao)
+
+        selectionList.add(binding.word0)
+        selectionList.add(binding.word1)
+        selectionList.add(binding.word2)
+        selectionList.add(binding.word3)
 
         return binding.root
     }
@@ -58,14 +70,6 @@ class CheckFragment : Fragment() {
 
         lifecycleScope.launch {
 
-            // 選択肢4つのButtonリスト作成
-            val selectionList = listOf(
-                binding.word0,
-                binding.word1,
-                binding.word2,
-                binding.word3,
-            )
-
             //データを取得しシャッフルする
             val shuffledList: List<WordData>
             withContext(Dispatchers.IO) {
@@ -83,13 +87,16 @@ class CheckFragment : Fragment() {
             //正誤チェック
             selectionList.forEach { wordButton ->
                 wordButton.setOnClickListener {
+                    //正答
                     if (wordButton.text.toString() == shuffledList[randomNum].japanese) {
                         binding.correct.visibility = View.VISIBLE
                         binding.incorrect.visibility = View.GONE
+                        wordButton.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.correct_color))
+                    //誤答
                     } else {
                         binding.incorrect.visibility = View.VISIBLE
                         binding.correct.visibility = View.GONE
-
+                        wordButton.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.incorrect_color))
                     }
                 }
             }
@@ -106,6 +113,9 @@ class CheckFragment : Fragment() {
     private fun reset() {
         binding.correct.visibility = View.GONE
         binding.incorrect.visibility = View.GONE
+        selectionList.forEach { button ->
+            button.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
+        }
     }
 
 

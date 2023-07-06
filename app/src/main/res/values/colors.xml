@@ -10,4 +10,8 @@
     <color name="transparent">#00000000</color>
     <!-- Background -->
     <color name="wall_color">#AADDDD</color>
+
+    <!-- quiz -->
+    <color name="correct_color">#FFBBBB</color>
+    <color name="incorrect_color">#7FBFFF</color>
 </resources>
