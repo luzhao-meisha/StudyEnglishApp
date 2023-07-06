@@ -19,10 +19,7 @@ class WordBookViewModel(private val wordDataRepository: WordDataRepository) : Vi
             viewModelScope.launch {
                 withContext(Dispatchers.IO) {
                     val data = wordDataRepository.getAllWordData()
-
-                    withContext(Dispatchers.Main) {
-                        _wordData.value = data // メインスレッドでLiveDataの値を更新
-                    }
+                    _wordData.postValue(data)
                 }
             }
         }
