@@ -5,9 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import com.bambi.studyenglishapp.model.WordDatabase
 import com.bambi.studyenglishapp.databinding.FragmentWordDetailsBinding
+import com.bambi.studyenglishapp.model.WordDataRepository
+import com.bambi.studyenglishapp.ui.check.CheckViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -15,12 +18,16 @@ import kotlinx.coroutines.withContext
 class WordDetailsFragment : Fragment() {
 
     private lateinit var binding: FragmentWordDetailsBinding
+    private lateinit var viewModel: WordDetailsViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentWordDetailsBinding.inflate(layoutInflater)
+        val wordDataDao = WordDatabase.getInstance(requireContext()).wordDataDao()
+        val wordDataRepository = WordDataRepository(wordDataDao)
+        viewModel = WordDetailsViewModel(wordDataRepository)
 
 
         return binding.root
@@ -29,30 +36,29 @@ class WordDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 非同期処理でデータを取得する
-        lifecycleScope.launch {
-                displayDetails()
-        }
-        binding.backButton.setOnClickListener {
-            requireActivity().onBackPressedDispatcher.onBackPressed()
-        }
-    }
+
+                val position = arguments?.getInt("position")
+                position?.let {
+                    viewModel.loadDetails(it)
+                }
+
+                viewModel.word.observe(viewLifecycleOwner) { word ->
+                    binding.word.text = word
+                }
+
+                viewModel.meaning.observe(viewLifecycleOwner) { meaning ->
+                    binding.meaning.text = meaning
+                }
+
+                viewModel.sentence.observe(viewLifecycleOwner) { sentence ->
+                    binding.sentence.text = sentence
+                }
 
 
-    private suspend fun displayDetails() {
-        withContext(Dispatchers.IO) {
-            val position = arguments?.getInt("position")
-
-            // Roomデータベースにあるデータを取得
-            val db = WordDatabase.getInstance(requireContext())
-
-            position?.let {
-                binding.word.text = db.wordDataDao().getEnglishNameById(it)
-                binding.meaning.text = db.wordDataDao().getJapaneseNameById(it)
-                binding.sentence.text = db.wordDataDao().getSentenceById(it)
+            binding.backButton.setOnClickListener {
+                requireActivity().onBackPressedDispatcher.onBackPressed()
             }
-
         }
-    }
+
 
 }
