@@ -1,4 +1,4 @@
-package com.bambi.studyenglishapp
+package com.bambi.studyenglishapp.db
 
 import android.content.Context
 import androidx.room.Database

@@ -1,17 +1,18 @@
-package com.bambi.studyenglishapp
+package com.bambi.studyenglishapp.ui
 
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.room.Room
+import com.bambi.studyenglishapp.R
 import com.bambi.studyenglishapp.databinding.FragmentCheckBinding
+import com.bambi.studyenglishapp.db.WordDataDao
+import com.bambi.studyenglishapp.db.WordDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

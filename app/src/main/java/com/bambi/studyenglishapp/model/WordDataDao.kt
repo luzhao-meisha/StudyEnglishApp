@@ -1,7 +1,7 @@
-package com.bambi.studyenglishapp
+package com.bambi.studyenglishapp.db
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.bambi.studyenglishapp.db.WordData
 
 
 @Dao
