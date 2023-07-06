@@ -10,7 +10,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bambi.studyenglishapp.R
-import com.bambi.studyenglishapp.adapter.WordListAdapter
 import com.bambi.studyenglishapp.databinding.FragmentWordBookBinding
 import com.bambi.studyenglishapp.model.WordDataRepository
 import com.bambi.studyenglishapp.model.WordDatabase
@@ -31,14 +30,10 @@ class WordBookFragment : Fragment() {
             findNavController().popBackStack()
         }
 
-        lifecycleScope.launch {
+        val wordDataDao = WordDatabase.getInstance(requireContext()).wordDataDao()
+        val wordDataRepository = WordDataRepository(wordDataDao)
+        viewModel = WordBookViewModel(wordDataRepository)
 
-            withContext(Dispatchers.IO) {
-                val wordDataDao = WordDatabase.getInstance(requireContext()).wordDataDao()
-                val wordDataRepository = WordDataRepository(wordDataDao)
-                viewModel = WordBookViewModel(wordDataRepository)
-            }
-        }
     }
 
     override fun onCreateView(
