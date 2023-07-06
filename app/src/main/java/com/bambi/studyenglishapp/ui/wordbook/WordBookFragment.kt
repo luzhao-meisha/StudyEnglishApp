@@ -9,12 +9,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.room.Room
 import com.bambi.studyenglishapp.R
-import com.bambi.studyenglishapp.model.WordData
-import com.bambi.studyenglishapp.model.WordDatabase
 import com.bambi.studyenglishapp.adapter.WordListAdapter
 import com.bambi.studyenglishapp.databinding.FragmentWordBookBinding
+import com.bambi.studyenglishapp.model.WordDataRepository
+import com.bambi.studyenglishapp.model.WordDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -23,19 +22,29 @@ import kotlinx.coroutines.withContext
 class WordBookFragment : Fragment() {
 
     private lateinit var binding: FragmentWordBookBinding
-    private lateinit var wordData: List<WordData>
+    private lateinit var viewModel: WordBookViewModel
+    private lateinit var wordListAdapter: WordListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requireActivity().onBackPressedDispatcher.addCallback(this) {
             findNavController().popBackStack()
         }
+
+        lifecycleScope.launch {
+
+            withContext(Dispatchers.IO) {
+                val wordDataDao = WordDatabase.getInstance(requireContext()).wordDataDao()
+                val wordDataRepository = WordDataRepository(wordDataDao)
+                viewModel = WordBookViewModel(wordDataRepository)
+            }
+        }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentWordBookBinding.inflate(layoutInflater)
         val view = binding.root
 
@@ -49,24 +58,24 @@ class WordBookFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //Roomからwordデータ取得
-        lifecycleScope.launch {
-            withContext(Dispatchers.IO) {
-                val db = Room.databaseBuilder(
-                    requireContext(),
-                    WordDatabase::class.java,
-                    "word_database"
-                ).build()
 
-                val wordDao = db.wordDataDao()
-                wordData = wordDao.getAllWordData()
+        lifecycleScope.launch {
+
+            withContext(Dispatchers.IO) {
+                wordListAdapter = WordListAdapter()
+                viewModel.fetchWordData()
+
             }
 
             //recyclerview描画
             withContext(Dispatchers.Main) {
+                viewModel.wordData.observe(viewLifecycleOwner) { data ->
+                    wordListAdapter.setWords(data)
+                }
+
                 binding.wordRv.apply {
-                    adapter = WordListAdapter(wordData)
                     layoutManager = LinearLayoutManager(requireContext())
+                    adapter = wordListAdapter
                 }
             }
         }
