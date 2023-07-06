@@ -5,7 +5,7 @@
     app:startDestination="@id/menuFragment">
     <fragment
         android:id="@+id/menuFragment"
-        android:name="com.bambi.studyenglishapp.MenuFragment"
+        android:name="com.bambi.studyenglishapp.ui.menu.MenuFragment"
         android:label="fragment_menu">
         <action
             android:id="@+id/action_menuFragment_to_wordBookFragment"
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/wordBookFragment"
-        android:name="com.bambi.studyenglishapp.WordBookFragment"
+        android:name="com.bambi.studyenglishapp.ui.wordbook.WordBookFragment"
         android:label="fragment_word_book">
         <action
             android:id="@+id/action_wordBookFragment_to_menuFragment"
@@ -28,7 +28,7 @@
     </fragment>
     <fragment
         android:id="@+id/checkFragment"
-        android:name="com.bambi.studyenglishapp.CheckFragment"
+        android:name="com.bambi.studyenglishapp.ui.check.CheckFragment"
         android:label="fragment_check">
         <action
             android:id="@+id/action_checkFragment_to_menuFragment"
@@ -37,7 +37,7 @@
     </fragment>
     <fragment
         android:id="@+id/wordDetailsFragment"
-        android:name="com.bambi.studyenglishapp.WordDetailsFragment"
+        android:name="com.bambi.studyenglishapp.ui.worddetails.WordDetailsFragment"
         android:label="fragment_word_details">
     </fragment>
 </navigation>

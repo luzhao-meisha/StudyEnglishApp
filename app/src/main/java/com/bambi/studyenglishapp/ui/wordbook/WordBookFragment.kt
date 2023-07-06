@@ -1,4 +1,4 @@
-package com.bambi.studyenglishapp.ui
+package com.bambi.studyenglishapp.ui.wordbook
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,8 +11,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room.Room
 import com.bambi.studyenglishapp.R
-import com.bambi.studyenglishapp.db.WordData
-import com.bambi.studyenglishapp.db.WordDatabase
+import com.bambi.studyenglishapp.model.WordData
+import com.bambi.studyenglishapp.model.WordDatabase
 import com.bambi.studyenglishapp.adapter.WordListAdapter
 import com.bambi.studyenglishapp.databinding.FragmentWordBookBinding
 import kotlinx.coroutines.Dispatchers

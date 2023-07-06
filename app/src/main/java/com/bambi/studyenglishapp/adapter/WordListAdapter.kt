@@ -8,7 +8,7 @@ import androidx.core.os.bundleOf
 import androidx.navigation.Navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bambi.studyenglishapp.R
-import com.bambi.studyenglishapp.WordData
+import com.bambi.studyenglishapp.model.WordData
 
 
 class WordListAdapter(private val wordList: List<WordData>): RecyclerView.Adapter<ViewHolderItem>() {

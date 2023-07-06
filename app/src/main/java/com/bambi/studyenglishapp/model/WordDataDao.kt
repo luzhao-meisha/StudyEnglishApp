@@ -1,7 +1,6 @@
-package com.bambi.studyenglishapp.db
+package com.bambi.studyenglishapp.model
 
 import androidx.room.*
-import com.bambi.studyenglishapp.db.WordData
 
 
 @Dao

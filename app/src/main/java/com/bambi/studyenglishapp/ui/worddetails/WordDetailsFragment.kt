@@ -1,4 +1,4 @@
-package com.bambi.studyenglishapp.ui
+package com.bambi.studyenglishapp.ui.worddetails
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
-import com.bambi.studyenglishapp.db.WordDatabase
+import com.bambi.studyenglishapp.model.WordDatabase
 import com.bambi.studyenglishapp.databinding.FragmentWordDetailsBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

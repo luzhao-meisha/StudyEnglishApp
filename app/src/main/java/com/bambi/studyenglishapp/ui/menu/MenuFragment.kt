@@ -1,4 +1,4 @@
-package com.bambi.studyenglishapp.ui
+package com.bambi.studyenglishapp.ui.menu
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

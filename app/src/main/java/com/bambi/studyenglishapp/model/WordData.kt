@@ -1,4 +1,4 @@
-package com.bambi.studyenglishapp.db
+package com.bambi.studyenglishapp.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
