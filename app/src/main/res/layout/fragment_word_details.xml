@@ -51,7 +51,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.2" />
+                app:layout_constraintGuide_percent="0.25" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/meaning_line"
@@ -72,10 +72,12 @@
                 style="@style/details_word_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="@id/word_line"
+                android:paddingTop="10dp"
+                android:paddingHorizontal="10dp"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="@id/start_line"
                 app:layout_constraintEnd_toEndOf="@id/end_line"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/word_line"
                 tools:text="単語"/>
 
             <TextView
