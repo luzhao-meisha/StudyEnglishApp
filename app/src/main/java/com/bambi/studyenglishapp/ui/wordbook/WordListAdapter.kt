@@ -1,11 +1,10 @@
-package com.bambi.studyenglishapp.adapter
+package com.bambi.studyenglishapp.ui.wordbook
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.os.bundleOf
-import androidx.lifecycle.LiveData
 import androidx.navigation.Navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bambi.studyenglishapp.R
