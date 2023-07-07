@@ -84,6 +84,8 @@ class CheckFragment : Fragment() {
             val randomNum = Random.nextInt(0, 4)
             binding.word.text = shuffledList[randomNum].english
 
+            val soundManager = SoundManager(requireContext())
+
             //正誤チェック
             selectionList.forEach { wordButton ->
                 wordButton.setOnClickListener {
@@ -92,13 +94,16 @@ class CheckFragment : Fragment() {
                         binding.correct.visibility = View.VISIBLE
                         binding.incorrect.visibility = View.GONE
                         wordButton.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.correct_color))
+                        soundManager.playSound(R.raw.correct)
                     //誤答
                     } else {
                         binding.incorrect.visibility = View.VISIBLE
                         binding.correct.visibility = View.GONE
                         wordButton.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.incorrect_color))
+                        soundManager.playSound(R.raw.incorrect)
                     }
                 }
+
             }
         }
     }
