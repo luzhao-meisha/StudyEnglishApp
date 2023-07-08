@@ -78,7 +78,7 @@ class WordBookFragment : Fragment() {
                     adapter = wordListAdapter
                 }
 
-                // SearchViewのリスナーを設定
+                // SearchViewの設定
                 binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                     override fun onQueryTextSubmit(query: String?): Boolean {
                         return false
