@@ -5,12 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bambi.studyenglishapp.R
 import com.bambi.studyenglishapp.databinding.FragmentWordBookBinding
+import com.bambi.studyenglishapp.model.WordData
 import com.bambi.studyenglishapp.model.WordDataRepository
 import com.bambi.studyenglishapp.model.WordDatabase
 import kotlinx.coroutines.Dispatchers
@@ -53,6 +55,8 @@ class WordBookFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        var wordDataList: List<WordData> = emptyList()
+
 
         lifecycleScope.launch {
 
@@ -66,12 +70,31 @@ class WordBookFragment : Fragment() {
             withContext(Dispatchers.Main) {
                 viewModel.wordData.observe(viewLifecycleOwner) { data ->
                     wordListAdapter.setWords(data)
+                    wordDataList = data
                 }
 
                 binding.wordRv.apply {
                     layoutManager = LinearLayoutManager(requireContext())
                     adapter = wordListAdapter
                 }
+
+                // SearchViewのリスナーを設定
+                binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                    override fun onQueryTextSubmit(query: String?): Boolean {
+                        return false
+                    }
+
+                    override fun onQueryTextChange(newText: String?): Boolean {
+                        newText?.let { searchQuery ->
+                            val filteredList = wordDataList.filter { item ->
+                                item.english.contains(searchQuery, ignoreCase = true)
+                            }
+                            wordListAdapter.setWords(filteredList.toMutableList())
+                        }
+                        return true
+                    }
+                })
+
             }
         }
     }

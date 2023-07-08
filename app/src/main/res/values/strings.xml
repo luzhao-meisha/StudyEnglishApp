@@ -2,6 +2,7 @@
     <string name="app_name">StudyEnglishApp</string>
     <string name="title">Study English!</string>
     <string name="word_book">単語帳</string>
+    <string name="search">検索</string>
     <string name="check">チェック</string>
 
     <string-array name="sort_array">
