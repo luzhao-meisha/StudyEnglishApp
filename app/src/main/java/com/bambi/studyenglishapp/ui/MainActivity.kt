@@ -46,10 +46,14 @@ class MainActivity : AppCompatActivity() {
             //データ取得
             val getData = getData()
 
-            //Roomにデータ書き込み
-            writeWordDatabase(getData)
+            //Roomデータベースにデータが存在しない場合のみ追加する
+            if (getData.isNotEmpty()) {
+                //Roomにデータ書き込み
+                writeWordDatabase(getData)
+            }
         }
     }
+
 
     //データ取得
     private suspend fun getData(): List<WordData> {
@@ -62,7 +66,7 @@ class MainActivity : AppCompatActivity() {
             // SpreadsheetDataオブジェクトのリストに変換する
             val dataList = mutableListOf<WordData>()
             wordList.forEachIndexed { index, row ->
-                if(index == 0) return@forEachIndexed //1列目はkeyのため格納しない
+                if (index == 0) return@forEachIndexed //1列目はkeyのため格納しない
                 val data = WordData(
                     id = index.toLong(),
                     english = row[0],
@@ -81,13 +85,27 @@ class MainActivity : AppCompatActivity() {
 
     //Room WordDatabaseに格納
     private suspend fun writeWordDatabase(getData: List<WordData>) {
-
         withContext(Dispatchers.IO) {
             //Roomを初期化
             val db = WordDatabase.getInstance(this@MainActivity)
-            // Roomデータベースにデータを保存する
-            db.wordDataDao().insertAll(getData)
+
+            //db既存のデータを取得
+            val existingData = db.wordDataDao().getAllWordData()
+            //APIのデータを取得
+            val apiData = getData()
+
+            //APIから削除されたデータのIDを取得
+            val deletedIds = existingData.map { it.id } - apiData.map { it.id }.toSet()
+            //APIから削除されたデータをdbから削除する
+            deletedIds.forEach {  db.wordDataDao().clearByID(it.toInt()) }
+
+            //差分のデータを取得
+            val diffData = apiData.filter { apiItem ->
+                existingData.none { existingItem -> existingItem.id == apiItem.id && existingItem == apiItem }
+            }
+
+            //新しいデータをdbに追加する
+            db.wordDataDao().insertAll(diffData)
         }
     }
-
 }

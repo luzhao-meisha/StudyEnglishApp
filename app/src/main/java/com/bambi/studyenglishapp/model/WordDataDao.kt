@@ -18,6 +18,11 @@ interface WordDataDao {
     @Update
     suspend fun update(wordData: WordData)
 
+    /**特定の回答を更新*/
+    @Query("UPDATE word_data_table SET answers = :newAnswers WHERE id = :id")
+    fun updateAnswers(id: Int, newAnswers: String)
+
+
     /**全てのデータ取得*/
     @Query("SELECT * FROM word_data_table ORDER BY id ASC")
     fun getAllWordData(): List<WordData>
@@ -36,28 +41,35 @@ interface WordDataDao {
 
     /**特定のワードデータを取得*/
     @Query("SELECT * from word_data_table WHERE id = :key")
-    suspend fun get(key: Long): WordData?
+    fun get(key: Int): WordData
 
     /**特定の日本語を取得*/
     @Query("SELECT japanese FROM word_data_table WHERE id = :key")
-    fun getJapaneseNameById(key:Int): String
+    fun getJapaneseNameById(key: Int): String
 
     /**特定の英語を取得*/
     @Query("SELECT english FROM word_data_table WHERE id = :key")
-    fun getEnglishNameById(key:Int): String
+    fun getEnglishNameById(key: Int): String
 
     /**特定の例文を取得*/
     @Query("SELECT sentence FROM word_data_table WHERE id = :key")
-    fun getSentenceById(key:Int): String
+    fun getSentenceById(key: Int): String
 
-    /**特定追加日を取得*/
+    /**特定の追加日を取得*/
     @Query("SELECT date FROM word_data_table WHERE id = :key")
-    fun getDateById(key:Int): String
+    fun getDateById(key: Int): String
+
+    /**特定のidを取得*/
+    @Query("SELECT id FROM word_data_table WHERE english = :word")
+    fun getIdByWord(word: String): Int
+
+    /**特定のデータを消去*/
+    @Query("DELETE FROM word_data_table WHERE id = :key")
+    suspend fun clearByID(key: Int)
 
     /**消去*/
     @Query("DELETE FROM word_data_table")
     suspend fun clear()
-
 
 
 }
