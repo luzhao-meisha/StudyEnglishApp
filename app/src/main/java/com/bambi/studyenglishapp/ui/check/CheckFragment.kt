@@ -108,7 +108,7 @@ class CheckFragment : Fragment() {
                             )
                             soundManager.playSound(R.raw.correct)
                             viewModel.addAnswer(shuffledList[randomNum].english, CORRECT)
-                            //誤答
+                        //誤答
                         } else {
                             binding.incorrect.visibility = View.VISIBLE
                             binding.correct.visibility = View.GONE
@@ -118,15 +118,23 @@ class CheckFragment : Fragment() {
                                     R.color.incorrect_color
                                 )
                             )
+                           //正解に色をつける
+                           selectionList[randomNum].backgroundTintList = ColorStateList.valueOf(
+                               ContextCompat.getColor(
+                                   requireContext(),
+                                   R.color.correct_color
+                               )
+                           )
                             soundManager.playSound(R.raw.incorrect)
                             viewModel.addAnswer(shuffledList[randomNum].english, INCORRECT)
                         }
 
+
+                        //1度選択したらボタンを無効化、2秒後に次へ遷移させる
                         wordButton.isEnabled = false
                         wordButton.postDelayed({
                             moveToNextQuiz()
                             wordButton.isEnabled = true
-                            clicked = false
                         }, 2000L)
                     }
                 }
