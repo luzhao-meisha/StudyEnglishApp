@@ -16,14 +16,17 @@ import kotlinx.coroutines.withContext
 class WordBookViewModel(private val wordDataRepository: WordDataRepository) : ViewModel() {
 
     private val _wordData = MutableLiveData<List<WordData>>()
-    private val _alphabetOrderData = MutableLiveData<List<WordData>>()
-    private val _addDateOrderData = MutableLiveData<List<WordData>>()
-    private val _incorrectOrderData = MutableLiveData<List<WordData>>()
-
     val wordData: LiveData<List<WordData>> get() = _wordData
-    val alphabetOrderData :LiveData<List<WordData>> get() = _alphabetOrderData
-    val addDateOrderData :LiveData<List<WordData>> get() = _addDateOrderData
-    val incorrectOrderData :LiveData<List<WordData>> get() = _incorrectOrderData
+
+    private val _alphabetOrderData = MutableLiveData<List<WordData>>()
+    val alphabetOrderData: LiveData<List<WordData>> get() = _alphabetOrderData
+
+    private val _addDateOrderData = MutableLiveData<List<WordData>>()
+    val addDateOrderData: LiveData<List<WordData>> get() = _addDateOrderData
+
+    private val _incorrectOrderData = MutableLiveData<List<WordData>>()
+    val incorrectOrderData: LiveData<List<WordData>> get() = _incorrectOrderData
+
 
     fun fetchWordData() {
         viewModelScope.launch {
@@ -34,14 +37,14 @@ class WordBookViewModel(private val wordDataRepository: WordDataRepository) : Vi
         }
     }
 
-    fun sortWordData(sortType :Int) {
+    fun sortWordData(sortType: Int) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                when(sortType) {
+                when (sortType) {
                     ADD_DATE_ORDER -> _addDateOrderData.postValue(wordDataRepository.getAddDateOrder())
                     ALPHABET_ORDER -> _alphabetOrderData.postValue(wordDataRepository.getAlphabeticalOrder())
                     //TODO:間違え順に直す
-                    INCORRECT_ORDER-> _incorrectOrderData.postValue(wordDataRepository.getAlphabeticalOrder())
+                    INCORRECT_ORDER -> _incorrectOrderData.postValue(wordDataRepository.getAlphabeticalOrder())
                 }
             }
         }
