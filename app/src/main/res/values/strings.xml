@@ -7,8 +7,8 @@
     <string name="date">追加日:%1$s</string>
 
     <string-array name="sort_array">
-        <item>アルファベット順</item>
         <item>追加日順</item>
+        <item>アルファベット順</item>
         <item>間違いが多い順</item>
     </string-array>
 </resources>

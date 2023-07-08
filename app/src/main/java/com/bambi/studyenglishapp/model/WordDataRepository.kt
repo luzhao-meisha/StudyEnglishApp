@@ -7,6 +7,14 @@ class WordDataRepository(private val wordDataDao: WordDataDao) {
     /**全てのデータ取得*/
      fun getAllWordData()  = wordDataDao.getAllWordData()
 
+    /**全てのデータ取得（アルファベット順）*/
+    fun getAlphabeticalOrder()  = wordDataDao.getAllWordData().sortedBy { it.english }
+
+    /**全てのデータ取得（追加日順）*/
+    fun getAddDateOrder()  = wordDataDao.getAllWordData().sortedBy { it.date }
+    
+    //TODO:間違え順の関数追加
+
     /**特定の日本語を取得*/
     fun getJapaneseNameById(index: Int)  = wordDataDao.getJapaneseNameById(index)
 

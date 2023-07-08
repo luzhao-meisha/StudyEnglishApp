@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.activity.addCallback
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
@@ -78,7 +80,7 @@ class WordBookFragment : Fragment() {
                     adapter = wordListAdapter
                 }
 
-                // SearchViewの設定
+                //SearchViewの設定
                 binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                     override fun onQueryTextSubmit(query: String?): Boolean {
                         return false
@@ -95,8 +97,49 @@ class WordBookFragment : Fragment() {
                     }
                 })
 
+                //Spinnerの設定
+                binding.sortSpinner.onItemSelectedListener =
+                    object : AdapterView.OnItemSelectedListener {
+
+                        override fun onItemSelected(
+                            parent: AdapterView<*>?,
+                            view: View?,
+                            position: Int,
+                            id: Long
+                        ) {
+                            viewModel.sortWordData(position)
+
+                            when (position) {
+                                ALPHABET_ORDER -> {
+                                    viewModel.alphabetOrderData.observe(viewLifecycleOwner) { data ->
+                                        wordListAdapter.setWords(data)
+                                    }
+                                }
+                                ADD_DATE_ORDER -> {
+                                    viewModel.addDateOrderData.observe(viewLifecycleOwner) { data ->
+                                        wordListAdapter.setWords(data)
+                                    }
+                                }
+                                INCORRECT_ORDER -> {
+                                    viewModel.incorrectOrderData.observe(viewLifecycleOwner) { data ->
+                                        wordListAdapter.setWords(data)
+                                    }
+                                }
+                            }
+                        }
+                        override fun onNothingSelected(parent: AdapterView<*>?) {
+                        }
+                    }
+
+
             }
         }
+    }
+
+    companion object {
+        const val ADD_DATE_ORDER = 0
+        const val ALPHABET_ORDER = 1
+        const val INCORRECT_ORDER = 2
     }
 
 }
