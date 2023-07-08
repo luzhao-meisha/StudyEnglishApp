@@ -65,7 +65,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.6" />
+                app:layout_constraintGuide_percent="0.65" />
 
             <TextView
                 android:id="@+id/word"
@@ -103,12 +103,11 @@
                 tools:text="例文"/>
 
             <TextView
-                android:id="@+id/add_date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:id="@+id/date"
+                style="@style/sentence_style"
                 app:layout_constraintTop_toTopOf="@id/sentence_line"
                 app:layout_constraintEnd_toEndOf="@id/end_line"
+                android:text="@string/date"
                 tools:text="追加日：2023/2/5"/>
 
 

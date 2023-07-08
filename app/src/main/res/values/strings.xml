@@ -4,6 +4,7 @@
     <string name="word_book">単語帳</string>
     <string name="search">検索</string>
     <string name="check">チェック</string>
+    <string name="date">追加日:%1$s</string>
 
     <string-array name="sort_array">
         <item>アルファベット順</item>

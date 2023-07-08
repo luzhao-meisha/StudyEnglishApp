@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import com.bambi.studyenglishapp.R
 import com.bambi.studyenglishapp.model.WordDatabase
 import com.bambi.studyenglishapp.databinding.FragmentWordDetailsBinding
 import com.bambi.studyenglishapp.model.WordDataRepository
@@ -37,28 +38,32 @@ class WordDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-                val position = arguments?.getInt("position")
-                position?.let {
-                    viewModel.loadDetails(it)
-                }
-
-                viewModel.word.observe(viewLifecycleOwner) { word ->
-                    binding.word.text = word
-                }
-
-                viewModel.meaning.observe(viewLifecycleOwner) { meaning ->
-                    binding.meaning.text = meaning
-                }
-
-                viewModel.sentence.observe(viewLifecycleOwner) { sentence ->
-                    binding.sentence.text = sentence
-                }
-
-
-            binding.backButton.setOnClickListener {
-                requireActivity().onBackPressedDispatcher.onBackPressed()
-            }
+        val position = arguments?.getInt("position")
+        position?.let {
+            viewModel.loadDetails(it)
         }
+
+        viewModel.word.observe(viewLifecycleOwner) { word ->
+            binding.word.text = word
+        }
+
+        viewModel.meaning.observe(viewLifecycleOwner) { meaning ->
+            binding.meaning.text = meaning
+        }
+
+        viewModel.sentence.observe(viewLifecycleOwner) { sentence ->
+            binding.sentence.text = sentence
+        }
+
+        viewModel.date.observe(viewLifecycleOwner) { date ->
+            binding.date.text = requireContext().getString(R.string.date, date)
+        }
+
+
+        binding.backButton.setOnClickListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
+    }
 
 
 }

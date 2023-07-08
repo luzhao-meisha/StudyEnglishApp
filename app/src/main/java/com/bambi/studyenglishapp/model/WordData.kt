@@ -20,5 +20,8 @@ data class WordData(
     var japanese: String = "",
 
     @ColumnInfo(name = "sentence")
-    var sentence: String = ""
+    var sentence: String = "",
+
+    @ColumnInfo(name = "date")
+    var date: String = ""
 )

@@ -68,6 +68,7 @@ class MainActivity : AppCompatActivity() {
                     english = row[0],
                     japanese = row[1],
                     sentence = row[2],
+                    date = row[3],
                 )
                 dataList.add(data)
             }

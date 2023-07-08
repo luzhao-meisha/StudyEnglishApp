@@ -1,7 +1,5 @@
 package com.bambi.studyenglishapp.model
 
-import androidx.room.Query
-
 class WordDataRepository(private val wordDataDao: WordDataDao) {
     /**データ挿入*/
     suspend fun insert(word: WordData) = wordDataDao.insert(word)
@@ -18,4 +16,6 @@ class WordDataRepository(private val wordDataDao: WordDataDao) {
     /**特定の例文を取得*/
     fun getSentenceById(index: Int)  = wordDataDao.getSentenceById(index)
 
+    /**特定の追加日を取得*/
+    fun getDateById(index: Int)  = wordDataDao.getDateById(index)
 }

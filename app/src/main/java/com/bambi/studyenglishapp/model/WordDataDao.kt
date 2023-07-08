@@ -18,10 +18,6 @@ interface WordDataDao {
     @Update
     suspend fun update(wordData: WordData)
 
-    /**特定のワードデータを取得*/
-    @Query("SELECT * from word_data_table WHERE id = :key")
-    suspend fun get(key: Long): WordData?
-
     /**全てのデータ取得*/
     @Query("SELECT * FROM word_data_table ORDER BY id ASC")
     fun getAllWordData(): List<WordData>
@@ -38,6 +34,10 @@ interface WordDataDao {
     @Query("SELECT english FROM word_data_table ORDER BY id ASC")
     fun getAllEnglishData(): List<String>
 
+    /**特定のワードデータを取得*/
+    @Query("SELECT * from word_data_table WHERE id = :key")
+    suspend fun get(key: Long): WordData?
+
     /**特定の日本語を取得*/
     @Query("SELECT japanese FROM word_data_table WHERE id = :key")
     fun getJapaneseNameById(key:Int): String
@@ -49,6 +49,10 @@ interface WordDataDao {
     /**特定の例文を取得*/
     @Query("SELECT sentence FROM word_data_table WHERE id = :key")
     fun getSentenceById(key:Int): String
+
+    /**特定追加日を取得*/
+    @Query("SELECT date FROM word_data_table WHERE id = :key")
+    fun getDateById(key:Int): String
 
     /**消去*/
     @Query("DELETE FROM word_data_table")

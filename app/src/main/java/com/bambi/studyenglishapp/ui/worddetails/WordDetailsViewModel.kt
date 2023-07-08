@@ -21,16 +21,21 @@ class WordDetailsViewModel(private val wordDataRepository: WordDataRepository) :
     private val _sentence = MutableLiveData<String>()
     val sentence: LiveData<String> get() = _sentence
 
+    private val _date = MutableLiveData<String>()
+    val date: LiveData<String> get() = _date
+
     fun loadDetails(position: Int) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 val word = wordDataRepository.getJapaneseNameById(position)
                 val meaning = wordDataRepository.getEnglishNameById(position)
                 val sentence = wordDataRepository.getSentenceById(position)
+                val date = wordDataRepository.getDateById(position)
 
                 _word.postValue(word)
                 _meaning.postValue(meaning)
                 _sentence.postValue(sentence)
+                _date.postValue(date)
             }
         }
     }
