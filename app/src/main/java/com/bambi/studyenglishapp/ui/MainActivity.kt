@@ -54,34 +54,33 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
     //データ取得
     private suspend fun getData(): List<WordData> {
+        return try {
+            withContext(Dispatchers.IO) {
+                val wordList = service.getWordList().values
 
-        var returnList: List<WordData>
+                // SpreadsheetDataオブジェクトのリストに変換する
+                val dataList = mutableListOf<WordData>()
+                wordList.forEachIndexed { index, row ->
+                    if (index == 0) return@forEachIndexed //1列目はkeyのため格納しない
+                    val data = WordData(
+                        id = index.toLong(),
+                        english = row.getOrNull(0) ?: "",
+                        japanese = row.getOrNull(1) ?: "",
+                        sentence = row.getOrNull(2) ?: "",
+                        date = row.getOrNull(3) ?: "",
+                    )
+                    dataList.add(data)
+                }
 
-        withContext(Dispatchers.IO) {
-            val wordList = service.getWordList().values
-
-            // SpreadsheetDataオブジェクトのリストに変換する
-            val dataList = mutableListOf<WordData>()
-            wordList.forEachIndexed { index, row ->
-                if (index == 0) return@forEachIndexed //1列目はkeyのため格納しない
-                val data = WordData(
-                    id = index.toLong(),
-                    english = row[0],
-                    japanese = row[1],
-                    sentence = row[2],
-                    date = row[3]
-                )
-                dataList.add(data)
+                dataList
             }
-
-            returnList = dataList
+        } catch (e: Exception) {
+            e.printStackTrace()
+            emptyList()
         }
-        return returnList
     }
-
 
     //Room WordDatabaseに格納
     private suspend fun writeWordDatabase(getData: List<WordData>) {
@@ -97,7 +96,7 @@ class MainActivity : AppCompatActivity() {
             //APIから削除されたデータのIDを取得
             val deletedIds = existingData.map { it.id } - apiData.map { it.id }.toSet()
             //APIから削除されたデータをdbから削除する
-            deletedIds.forEach {  db.wordDataDao().clearByID(it.toInt()) }
+            deletedIds.forEach { db.wordDataDao().clearByID(it.toInt()) }
 
             //差分のデータを取得
             val diffData = apiData.filter { apiItem ->
