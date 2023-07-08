@@ -91,34 +91,43 @@ class CheckFragment : Fragment() {
             val soundManager = SoundManager(requireContext())
 
             //正誤チェック
+            var clicked = false
             selectionList.forEach { wordButton ->
                 wordButton.setOnClickListener {
-                    //正答
-                    if (wordButton.text.toString() == shuffledList[randomNum].japanese) {
-                        binding.correct.visibility = View.VISIBLE
-                        binding.incorrect.visibility = View.GONE
-                        wordButton.backgroundTintList = ColorStateList.valueOf(
-                            ContextCompat.getColor(
-                                requireContext(),
-                                R.color.correct_color
+                    if (!clicked) {
+                        clicked = true
+                        //正答
+                        if (wordButton.text.toString() == shuffledList[randomNum].japanese) {
+                            binding.correct.visibility = View.VISIBLE
+                            binding.incorrect.visibility = View.GONE
+                            wordButton.backgroundTintList = ColorStateList.valueOf(
+                                ContextCompat.getColor(
+                                    requireContext(),
+                                    R.color.correct_color
+                                )
                             )
-                        )
-                        soundManager.playSound(R.raw.correct)
-                        viewModel.addAnswer(shuffledList[randomNum].english, CORRECT)
-
-
-                        //誤答
-                    } else {
-                        binding.incorrect.visibility = View.VISIBLE
-                        binding.correct.visibility = View.GONE
-                        wordButton.backgroundTintList = ColorStateList.valueOf(
-                            ContextCompat.getColor(
-                                requireContext(),
-                                R.color.incorrect_color
+                            soundManager.playSound(R.raw.correct)
+                            viewModel.addAnswer(shuffledList[randomNum].english, CORRECT)
+                            //誤答
+                        } else {
+                            binding.incorrect.visibility = View.VISIBLE
+                            binding.correct.visibility = View.GONE
+                            wordButton.backgroundTintList = ColorStateList.valueOf(
+                                ContextCompat.getColor(
+                                    requireContext(),
+                                    R.color.incorrect_color
+                                )
                             )
-                        )
-                        soundManager.playSound(R.raw.incorrect)
-                        viewModel.addAnswer(shuffledList[randomNum].english, INCORRECT)
+                            soundManager.playSound(R.raw.incorrect)
+                            viewModel.addAnswer(shuffledList[randomNum].english, INCORRECT)
+                        }
+
+                        wordButton.isEnabled = false
+                        wordButton.postDelayed({
+                            moveToNextQuiz()
+                            wordButton.isEnabled = true
+                            clicked = false
+                        }, 2000L)
                     }
                 }
             }
