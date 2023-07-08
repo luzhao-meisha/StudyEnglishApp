@@ -3,6 +3,7 @@ package com.bambi.studyenglishapp.ui.check
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,8 +15,10 @@ import androidx.navigation.Navigation
 import com.bambi.studyenglishapp.R
 import com.bambi.studyenglishapp.databinding.FragmentCheckBinding
 import com.bambi.studyenglishapp.model.WordData
+import com.bambi.studyenglishapp.model.WordDataRepository
 import com.bambi.studyenglishapp.model.WordDatabase
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.random.Random
@@ -37,7 +40,8 @@ class CheckFragment : Fragment() {
 
         binding = FragmentCheckBinding.inflate(layoutInflater)
         val wordDataDao = WordDatabase.getInstance(requireContext()).wordDataDao()
-        viewModel = CheckViewModel(wordDataDao)
+        val wordDataRepository = WordDataRepository(wordDataDao)
+        viewModel = CheckViewModel(wordDataRepository)
 
         selectionList.add(binding.word0)
         selectionList.add(binding.word1)
@@ -93,25 +97,41 @@ class CheckFragment : Fragment() {
                     if (wordButton.text.toString() == shuffledList[randomNum].japanese) {
                         binding.correct.visibility = View.VISIBLE
                         binding.incorrect.visibility = View.GONE
-                        wordButton.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.correct_color))
+                        wordButton.backgroundTintList = ColorStateList.valueOf(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.correct_color
+                            )
+                        )
                         soundManager.playSound(R.raw.correct)
-                    //誤答
+                        viewModel.addAnswer(shuffledList[randomNum].english, CORRECT)
+
+
+                        //誤答
                     } else {
                         binding.incorrect.visibility = View.VISIBLE
                         binding.correct.visibility = View.GONE
-                        wordButton.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.incorrect_color))
+                        wordButton.backgroundTintList = ColorStateList.valueOf(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.incorrect_color
+                            )
+                        )
                         soundManager.playSound(R.raw.incorrect)
+                        viewModel.addAnswer(shuffledList[randomNum].english, INCORRECT)
                     }
                 }
-
             }
+
         }
     }
+
 
     /** 次のクイズを表示する **/
     private fun moveToNextQuiz() {
         reset()
         displayQuiz()
+        Log.d("kanuma", viewModel.answers.value.toString())
     }
 
     /** 初期化 **/
@@ -121,6 +141,11 @@ class CheckFragment : Fragment() {
         selectionList.forEach { button ->
             button.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
         }
+    }
+
+    companion object {
+        const val INCORRECT = 0
+        const val CORRECT = 1
     }
 
 

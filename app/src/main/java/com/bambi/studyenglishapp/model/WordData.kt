@@ -1,17 +1,20 @@
 package com.bambi.studyenglishapp.model
 
+import androidx.annotation.Nullable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverter
 import androidx.room.TypeConverters
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
 data class WordList(
     val values: List<List<String>>
 )
 
 @Entity(tableName = "word_data_table")
-@TypeConverters(IntegerListConverter::class)
+@TypeConverters(IntListConverter::class)
 data class WordData(
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0L,
@@ -29,18 +32,23 @@ data class WordData(
     var date: String = "",
 
     @ColumnInfo(name = "answers")
-    var answers: MutableList<Int>? = null
+    @TypeConverters
+    var answers: List<Int> = emptyList()
 )
 
 
-class IntegerListConverter {
+class IntListConverter {
     @TypeConverter
-    fun fromIntegerList(list: List<Int>?): String? {
+    fun fromList(list: List<Int>?): String? {
         return list?.joinToString(",")
     }
 
     @TypeConverter
-    fun toIntegerList(data: String?): List<Int>? {
-        return data?.split(",")?.map { it.toInt() }
+    fun toList(data: String?): List<Int> {
+        return if (data.isNullOrEmpty()) {
+            emptyList()
+        } else {
+            data.trim().split(",").map { it.trim().toInt() }
+        }
     }
 }
