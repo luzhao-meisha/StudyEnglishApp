@@ -60,11 +60,7 @@ class CheckFragment : Fragment() {
         binding.homeButton.setOnClickListener {
             Navigation.findNavController(it).navigate(R.id.action_checkFragment_to_menuFragment)
         }
-
-        //次へボタン
-        binding.nextButton.setOnClickListener {
-            moveToNextQuiz()
-        }
+        
     }
 
     /**
