@@ -1,5 +1,6 @@
 package com.bambi.studyenglishapp.ui.wordbook
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,7 +28,9 @@ class WordListAdapter : RecyclerView.Adapter<ViewHolderItem>() {
         holder.meaning.text = wordList[position].japanese
         holder.sentence.text = wordList[position].sentence
         holder.itemView.setOnClickListener {
-            val bundle = bundleOf("position" to position + 1)
+            val id = wordList[position].id
+            val bundle = Bundle()
+            bundle.putInt("position",id.toInt())
             findNavController(it).navigate(
                 R.id.action_wordBookFragment_to_wordDetailsFragment,
                 bundle

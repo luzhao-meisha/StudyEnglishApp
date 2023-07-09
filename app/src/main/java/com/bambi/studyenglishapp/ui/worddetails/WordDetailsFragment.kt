@@ -5,16 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
 import com.bambi.studyenglishapp.R
 import com.bambi.studyenglishapp.model.WordDatabase
 import com.bambi.studyenglishapp.databinding.FragmentWordDetailsBinding
 import com.bambi.studyenglishapp.model.WordDataRepository
-import com.bambi.studyenglishapp.ui.check.CheckViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class WordDetailsFragment : Fragment() {
 
@@ -37,10 +31,10 @@ class WordDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-        val position = arguments?.getInt("position")
+        val position = arguments?.getInt("position",-1)
         position?.let {
             viewModel.loadDetails(it)
+            viewModel.getAnswers(it)
         }
 
         viewModel.word.observe(viewLifecycleOwner) { word ->
