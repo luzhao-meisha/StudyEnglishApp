@@ -88,23 +88,21 @@ class MainActivity : AppCompatActivity() {
             //Roomを初期化
             val db = WordDatabase.getInstance(this@MainActivity)
 
-            //db既存のデータを取得
+            //dbから既存のデータを取得
             val existingData = db.wordDataDao().getAllWordData()
-            //APIのデータを取得
-            val apiData = getData()
 
-            //APIから削除されたデータのIDを取得
-            val deletedIds = existingData.map { it.id } - apiData.map { it.id }.toSet()
-            //APIから削除されたデータをdbから削除する
-            deletedIds.forEach { db.wordDataDao().clearByID(it.toInt()) }
+            //既存データのIDをSetに変換
+            val existingIds = existingData.map { it.id }.toSet()
 
-            //差分のデータを取得
-            val diffData = apiData.filter { apiItem ->
-                existingData.none { existingItem -> existingItem.id == apiItem.id && existingItem == apiItem }
+            //APIデータをループして差分のみを取得し、answersを除外して新しいデータのリストを作成
+            val newData = getData.filter { apiItem ->
+                apiItem.id !in existingIds
+            }.map { apiItem ->
+                apiItem.copy(answers = null) // answersをnullに設定して新しいデータを作成
             }
 
             //新しいデータをdbに追加する
-            db.wordDataDao().insertAll(diffData)
+            db.wordDataDao().insertAll(newData)
         }
     }
 }
