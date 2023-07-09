@@ -14,8 +14,11 @@ class WordDataRepository(private val wordDataDao: WordDataDao) {
             val wordData = wordDataDao.get(id)
             val newAnswers = wordData.answers?.toMutableList()
             newAnswers?.let {
-                it.add(answer)
-                wordDataDao.updateAnswers(id, newAnswers.joinToString())
+                if (it.size == 10) it.clear()
+
+                    it.add(answer)
+                    wordDataDao.updateAnswers(id, newAnswers.joinToString())
+
             }
         }
     }

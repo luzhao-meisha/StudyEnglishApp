@@ -110,14 +110,15 @@
                 app:layout_constraintTop_toTopOf="@id/sentence_line"
                 tools:text="追加日：2023/2/5" />
 
-            <TextView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/answers"
-                style="@style/sentence_style"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@id/end_line"
-                app:layout_constraintStart_toStartOf="@id/start_line"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:layout_marginTop="15dp"
                 app:layout_constraintTop_toBottomOf="@id/date"
-                tools:text="追加日：2023/2/5" />
+                app:layout_constraintEnd_toEndOf="@id/end_line"
+                app:layout_constraintStart_toStartOf="@id/start_line" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

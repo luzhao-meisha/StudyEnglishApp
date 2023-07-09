@@ -51,6 +51,6 @@ class WordDetailsViewModel(private val wordDataRepository: WordDataRepository) :
                     _answers.postValue(data)
             }
         }
-        return _answers
+        return answers
     }
 }

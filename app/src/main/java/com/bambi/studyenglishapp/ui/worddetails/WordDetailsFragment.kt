@@ -1,10 +1,14 @@
 package com.bambi.studyenglishapp.ui.worddetails
 
+import android.graphics.drawable.Drawable
+import android.media.Image
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.GridLayoutManager
 import com.bambi.studyenglishapp.R
 import com.bambi.studyenglishapp.model.WordDatabase
 import com.bambi.studyenglishapp.databinding.FragmentWordDetailsBinding
@@ -14,6 +18,7 @@ class WordDetailsFragment : Fragment() {
 
     private lateinit var binding: FragmentWordDetailsBinding
     private lateinit var viewModel: WordDetailsViewModel
+    private val imageList = mutableListOf<Drawable>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -23,6 +28,11 @@ class WordDetailsFragment : Fragment() {
         val wordDataDao = WordDatabase.getInstance(requireContext()).wordDataDao()
         val wordDataRepository = WordDataRepository(wordDataDao)
         viewModel = WordDetailsViewModel(wordDataRepository)
+
+
+        binding.answers.apply {
+            layoutManager = GridLayoutManager(requireContext(), 5)
+        }
 
 
         return binding.root
@@ -54,7 +64,21 @@ class WordDetailsFragment : Fragment() {
         }
 
         viewModel.answers.observe(viewLifecycleOwner) { answers ->
-            binding.answers.text = answers?.toString()
+            answers?.forEach {
+                when (it) {
+                        0 -> ContextCompat.getDrawable(requireContext(), R.drawable.answer_correct)
+                            ?.let { correct -> imageList.add(correct) }
+                        1 -> ContextCompat.getDrawable(requireContext(), R.drawable.answer_incorrect)
+                            ?.let { incorrect -> imageList.add(incorrect) }
+                }
+            }
+
+//            for(i in 1..10){
+//                ContextCompat.getDrawable(requireContext(), R.drawable.answer_correct)?.let { correct -> imageList.add(correct) }
+//            }
+
+            binding.answers.adapter = AnswersRecyclerView(requireContext(),imageList.toList())
+
         }
 
         binding.backButton.setOnClickListener {
