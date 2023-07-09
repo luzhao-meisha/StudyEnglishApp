@@ -130,8 +130,6 @@ class WordBookFragment : Fragment() {
                         override fun onNothingSelected(parent: AdapterView<*>?) {
                         }
                     }
-
-
             }
         }
     }

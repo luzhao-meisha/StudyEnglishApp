@@ -24,6 +24,10 @@ class WordDetailsViewModel(private val wordDataRepository: WordDataRepository) :
     private val _date = MutableLiveData<String>()
     val date: LiveData<String> get() = _date
 
+    private val _answers = MutableLiveData<List<Int>?>()
+    val answers: LiveData<List<Int>?> get() = _answers
+
+
     fun loadDetails(position: Int) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
@@ -38,5 +42,15 @@ class WordDetailsViewModel(private val wordDataRepository: WordDataRepository) :
                 _date.postValue(date)
             }
         }
+    }
+
+    fun getAnswers(id: Int): LiveData<List<Int>?> {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                val data = wordDataRepository.getAnswersById(id)
+                    _answers.postValue(data)
+            }
+        }
+        return _answers
     }
 }

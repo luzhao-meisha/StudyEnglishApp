@@ -53,10 +53,16 @@ class WordDetailsFragment : Fragment() {
             binding.date.text = requireContext().getString(R.string.date, date)
         }
 
+        viewModel.answers.observe(viewLifecycleOwner) { answers ->
+            binding.answers.text = answers?.toString()
+        }
 
         binding.backButton.setOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
+
+
+
     }
 
 

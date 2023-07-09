@@ -39,9 +39,8 @@ class CheckViewModel(private val wordDataRepository: WordDataRepository) : ViewM
             val id = wordDataRepository.getIdByWord(word)
             wordDataRepository.addAnswerToWordData(id, answer)
             val answers = wordDataRepository.getAnswersById(id)
-            _answers.value = answers
+            _answers.postValue(answers)
         }
     }
-
 
 }

@@ -33,7 +33,7 @@ data class WordData(
 
     @ColumnInfo(name = "answers")
     @TypeConverters
-    var answers: List<Int> = emptyList()
+    var answers: List<Int>? = emptyList()
 )
 
 

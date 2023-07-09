@@ -1,5 +1,6 @@
 package com.bambi.studyenglishapp.model
 
+import androidx.room.Query
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -11,8 +12,8 @@ class WordDataRepository(private val wordDataDao: WordDataDao) {
      suspend fun addAnswerToWordData(id: Int, answer: Int) {
         withContext(Dispatchers.IO) {
             val wordData = wordDataDao.get(id)
-            val newAnswers = wordData.answers.toMutableList()
-            newAnswers.let {
+            val newAnswers = wordData.answers?.toMutableList()
+            newAnswers?.let {
                 it.add(answer)
                 wordDataDao.updateAnswers(id, newAnswers.joinToString())
             }
@@ -21,6 +22,10 @@ class WordDataRepository(private val wordDataDao: WordDataDao) {
 
     /**全てのデータ取得*/
     fun getAllWordData() = wordDataDao.getAllWordData()
+
+
+    /**特定のワードデータを取得*/
+    fun get(index: Int) = wordDataDao.get(index)
 
     /**レコード数取得*/
     fun count(): Int = wordDataDao.count()
@@ -48,7 +53,12 @@ class WordDataRepository(private val wordDataDao: WordDataDao) {
     /**特定の回答を取得*/
     suspend fun getAnswersById(index: Int): List<Int> {
         return withContext(Dispatchers.IO) {
-            wordDataDao.get(index).answers
+            val answers = wordDataDao.getAnswersById(index)
+             if (answers.isNullOrEmpty()) {
+                emptyList()
+            } else {
+                answers.trim().split(",").map { it.trim().toInt() }
+            }
         }
     }
 

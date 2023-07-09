@@ -1,5 +1,6 @@
 package com.bambi.studyenglishapp.model
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 
 
@@ -43,6 +44,10 @@ interface WordDataDao {
     @Query("SELECT * from word_data_table WHERE id = :key")
     fun get(key: Int): WordData
 
+    /**特定のidを取得*/
+    @Query("SELECT id FROM word_data_table WHERE english = :word")
+    fun getIdByWord(word: String): Int
+
     /**特定の日本語を取得*/
     @Query("SELECT japanese FROM word_data_table WHERE id = :key")
     fun getJapaneseNameById(key: Int): String
@@ -59,9 +64,9 @@ interface WordDataDao {
     @Query("SELECT date FROM word_data_table WHERE id = :key")
     fun getDateById(key: Int): String
 
-    /**特定のidを取得*/
-    @Query("SELECT id FROM word_data_table WHERE english = :word")
-    fun getIdByWord(word: String): Int
+    /**特定の回答を取得*/
+    @Query("SELECT answers FROM word_data_table WHERE id = :key")
+    fun getAnswersById(key: Int): String?
 
     /**特定のデータを消去*/
     @Query("DELETE FROM word_data_table WHERE id = :key")
