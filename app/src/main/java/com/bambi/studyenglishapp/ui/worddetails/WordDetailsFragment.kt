@@ -66,9 +66,9 @@ class WordDetailsFragment : Fragment() {
         viewModel.answers.observe(viewLifecycleOwner) { answers ->
             answers?.forEach {
                 when (it) {
-                        0 -> ContextCompat.getDrawable(requireContext(), R.drawable.answer_correct)
+                        1 -> ContextCompat.getDrawable(requireContext(), R.drawable.answer_correct)
                             ?.let { correct -> imageList.add(correct) }
-                        1 -> ContextCompat.getDrawable(requireContext(), R.drawable.answer_incorrect)
+                        0 -> ContextCompat.getDrawable(requireContext(), R.drawable.answer_incorrect)
                             ?.let { incorrect -> imageList.add(incorrect) }
                 }
             }
