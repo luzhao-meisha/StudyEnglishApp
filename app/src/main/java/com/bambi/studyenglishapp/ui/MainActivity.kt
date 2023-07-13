@@ -98,7 +98,7 @@ class MainActivity : AppCompatActivity() {
             val newData = getData.filter { apiItem ->
                 apiItem.id !in existingIds
             }.map { apiItem ->
-                apiItem.copy(answers = null) // answersをnullに設定して新しいデータを作成
+                apiItem.copy(answers = null) //answersをnullに設定して新しいデータを作成
             }
 
             //新しいデータをdbに追加する

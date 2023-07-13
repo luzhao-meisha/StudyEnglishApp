@@ -43,8 +43,7 @@ class WordBookViewModel(private val wordDataRepository: WordDataRepository) : Vi
                 when (sortType) {
                     ADD_DATE_ORDER -> _addDateOrderData.postValue(wordDataRepository.getAddDateOrder())
                     ALPHABET_ORDER -> _alphabetOrderData.postValue(wordDataRepository.getAlphabeticalOrder())
-                    //TODO:間違え順に直す
-                    INCORRECT_ORDER -> _incorrectOrderData.postValue(wordDataRepository.getAlphabeticalOrder())
+                    INCORRECT_ORDER -> _incorrectOrderData.postValue(wordDataRepository.getIncorrectOrder())
                 }
             }
         }
