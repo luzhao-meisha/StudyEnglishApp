@@ -17,23 +17,26 @@ data class WordList(
 @TypeConverters(IntListConverter::class)
 data class WordData(
     @PrimaryKey(autoGenerate = true)
-    var id: Long = 0L,
+    val id: Long = 0L,
 
     @ColumnInfo(name = "english")
     val english: String = "",
 
     @ColumnInfo(name = "japanese")
-    var japanese: String = "",
+    val japanese: String = "",
 
     @ColumnInfo(name = "sentence")
-    var sentence: String = "",
+    val sentence: String = "",
 
     @ColumnInfo(name = "date")
-    var date: String = "",
+    val date: String = "",
 
     @ColumnInfo(name = "answers")
     @TypeConverters
-    var answers: List<Int>? = emptyList()
+    var answers: List<Int>? = emptyList(),
+
+    @ColumnInfo(name = "pass")
+    var pass: Boolean = false
 )
 
 
