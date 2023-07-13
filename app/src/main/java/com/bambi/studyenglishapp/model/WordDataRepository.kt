@@ -1,5 +1,6 @@
 package com.bambi.studyenglishapp.model
 
+import android.util.Log
 import androidx.room.Query
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -9,23 +10,37 @@ class WordDataRepository(private val wordDataDao: WordDataDao) {
     suspend fun insert(word: WordData) = wordDataDao.insert(word)
 
     /**回答更新*/
-     suspend fun addAnswerToWordData(id: Int, answer: Int) {
+    suspend fun addAnswerToWordData(id: Int, answer: Int) {
         withContext(Dispatchers.IO) {
             val wordData = wordDataDao.get(id)
             val newAnswers = wordData.answers?.toMutableList()
             newAnswers?.let {
-                if (it.size == 10) it.clear()
-
-                    it.add(answer)
-                    wordDataDao.updateAnswers(id, newAnswers.joinToString())
+                if (it.size == 10) {
+                    it.clear()
+                }
+                it.add(answer)
+                wordDataDao.updateAnswers(id, newAnswers.joinToString())
 
             }
         }
     }
 
+    /**passデータ更新*/
+    suspend fun updatePassDataToWordData(id: Int) {
+        withContext(Dispatchers.IO) {
+            val getAnswers = getAnswersById(id)
+            Log.d("kanuma getanswers:", getAnswers.toString())
+            var count = 0
+            getAnswers.forEach {
+                if (it == 1) count++ else count = 0
+            }
+                wordDataDao.updatePassData(id, count == 5)
+            Log.d("kanuma bool:", (count == 5).toString())
+        }
+    }
+
     /**全てのデータ取得*/
     fun getAllWordData() = wordDataDao.getAllWordData()
-
 
     /**特定のワードデータを取得*/
     fun get(index: Int) = wordDataDao.get(index)
@@ -60,7 +75,7 @@ class WordDataRepository(private val wordDataDao: WordDataDao) {
     suspend fun getAnswersById(index: Int): List<Int> {
         return withContext(Dispatchers.IO) {
             val answers = wordDataDao.getAnswersById(index)
-             if (answers.isNullOrEmpty()) {
+            if (answers.isNullOrEmpty()) {
                 emptyList()
             } else {
                 answers.trim().split(",").map { it.trim().toInt() }

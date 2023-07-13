@@ -23,6 +23,9 @@ interface WordDataDao {
     @Query("UPDATE word_data_table SET answers = :newAnswers WHERE id = :id")
     fun updateAnswers(id: Int, newAnswers: String)
 
+    /**特定のpassデータを更新*/
+    @Query("UPDATE word_data_table SET pass = :pass WHERE id = :id")
+    fun updatePassData(id: Int, pass: Boolean)
 
     /**全てのデータ取得*/
     @Query("SELECT * FROM word_data_table ORDER BY id ASC")
