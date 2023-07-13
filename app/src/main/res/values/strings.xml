@@ -1,15 +1,28 @@
 <resources>
     <string name="app_name">StudyEnglishApp</string>
     <string name="title">Study English!</string>
+
+    <!--menu fragment -->
+    <string name="total">[単語数]　全%1$s件</string>
+    <string name="complete">[覚えた単語]　%1$s件</string>
+    <string name="left">[残り]　%1$s件</string>
+
+    <!--wordbook fragment -->
     <string name="word_book">単語帳</string>
     <string name="search">検索</string>
-    <string name="check">チェック</string>
-    <string name="date">追加日: %1$s</string>
-    <string name="count">%1$s回目</string>
-
     <string-array name="sort_array">
         <item>追加日順</item>
         <item>アルファベット順</item>
         <item>間違いが多い順</item>
     </string-array>
+
+    <!--check fragment -->
+    <string name="check">チェック</string>
+    <string name="date">追加日: %1$s</string>
+    <string name="count">%1$s回目</string>
+
+
+
+
+
 </resources>
