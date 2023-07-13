@@ -5,9 +5,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bambi.studyenglishapp.R
 import com.bambi.studyenglishapp.databinding.FragmentMenuBinding
+import com.bambi.studyenglishapp.model.WordDataRepository
+import com.bambi.studyenglishapp.model.WordDatabase
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MenuFragment : Fragment() {
 
@@ -21,6 +27,9 @@ class MenuFragment : Fragment() {
         binding = FragmentMenuBinding.inflate(layoutInflater)
         val view = binding.root
 
+        val wordDataDao = WordDatabase.getInstance(requireContext()).wordDataDao()
+        val wordDataRepository = WordDataRepository(wordDataDao)
+
         binding.wordBookButton.setOnClickListener {
             findNavController().navigate(R.id.action_menuFragment_to_wordBookFragment)
 
@@ -29,6 +38,21 @@ class MenuFragment : Fragment() {
         binding.checkButton.setOnClickListener {
             findNavController().navigate(R.id.action_menuFragment_to_checkFragment)
 
+        }
+
+        lifecycleScope.launch {
+            withContext(Dispatchers.IO) {
+                binding.total.text =
+                    getString(R.string.total, wordDataRepository.count().toString())
+                binding.complete.text = getString(
+                    R.string.complete,
+                    wordDataRepository.getAllWordData().count { it.pass }.toString()
+                )
+                binding.left.text = getString(
+                    R.string.left,
+                    wordDataRepository.getAllWordData().count { it.pass.not() }.toString()
+                )
+            }
         }
 
         return view

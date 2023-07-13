@@ -31,7 +31,7 @@ class WordBookViewModel(private val wordDataRepository: WordDataRepository) : Vi
     fun fetchWordData() {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                val data = wordDataRepository.getAllWordData()
+                val data = wordDataRepository.getAllWordData().filter { it.pass.not() }
                 _wordData.postValue(data)
             }
         }

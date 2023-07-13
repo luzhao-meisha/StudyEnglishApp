@@ -49,10 +49,10 @@ class WordDataRepository(private val wordDataDao: WordDataDao) {
     fun count(): Int = wordDataDao.count()
 
     /**全てのデータ取得（アルファベット順）*/
-    fun getAlphabeticalOrder() = wordDataDao.getAllWordData().sortedBy { it.english }
+    fun getAlphabeticalOrder() = wordDataDao.getAllWordData().filter { it.pass.not() }.sortedBy { it.english }
 
     /**全てのデータ取得（追加日順）*/
-    fun getAddDateOrder() = wordDataDao.getAllWordData().sortedBy { it.date }
+    fun getAddDateOrder() = wordDataDao.getAllWordData().filter { it.pass.not() }.sortedBy { it.date }
 
     fun getIncorrectOrder() = wordDataDao.getAllWordData().sortedWith(
         compareBy<WordData> { it.pass.not() }
