@@ -21,6 +21,9 @@
     <string name="date">追加日: %1$s</string>
     <string name="count">%1$s回目</string>
 
+    <!--in app update -->
+    <string name="update">アップデートしてご使用ください。</string>
+
 
 
 
