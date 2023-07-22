@@ -41,18 +41,17 @@ class MenuFragment : Fragment() {
         }
 
         lifecycleScope.launch {
-            withContext(Dispatchers.IO) {
-                binding.total.text =
-                    getString(R.string.total, wordDataRepository.count().toString())
-                binding.complete.text = getString(
-                    R.string.complete,
-                    wordDataRepository.getAllWordData().count { it.pass }.toString()
-                )
-                binding.left.text = getString(
-                    R.string.left,
-                    wordDataRepository.getAllWordData().count { it.pass.not() }.toString()
-                )
-            }
+                withContext(Dispatchers.IO) {
+                    val totalCount = wordDataRepository.count()
+                    val completedCount = wordDataRepository.getAllWordData().count { it.pass }
+                    val leftCount = wordDataRepository.getAllWordData().count { it.pass.not() }
+
+                    withContext(Dispatchers.Main) {
+                        binding.total.text = getString(R.string.total, totalCount.toString())
+                        binding.complete.text = getString(R.string.complete, completedCount.toString())
+                        binding.left.text = getString(R.string.left, leftCount.toString())
+                    }
+                }
         }
 
         return view
