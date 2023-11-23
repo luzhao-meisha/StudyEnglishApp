@@ -1,12 +1,10 @@
 package com.bambi.studyenglishapp.ui.worddetails
 
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bambi.studyenglishapp.model.WordDataRepository
-import com.bambi.studyenglishapp.model.WordDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

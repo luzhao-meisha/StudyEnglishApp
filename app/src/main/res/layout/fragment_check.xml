@@ -102,7 +102,6 @@
             tools:text="選択肢0" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
     <ImageView
         android:id="@+id/correct"
         style="@style/quiz_result"
@@ -128,4 +127,3 @@
         tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-

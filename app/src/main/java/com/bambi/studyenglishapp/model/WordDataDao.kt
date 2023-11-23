@@ -1,6 +1,5 @@
 package com.bambi.studyenglishapp.model
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 
 
@@ -78,6 +77,5 @@ interface WordDataDao {
     /**消去*/
     @Query("DELETE FROM word_data_table")
     suspend fun clear()
-
 
 }

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -10,38 +9,38 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.2"/>
+        app:layout_constraintGuide_percent="0.2" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/end_line"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.8"/>
+        app:layout_constraintGuide_percent="0.8" />
 
     <TextView
         android:id="@+id/title"
         style="@style/title_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
         android:text="@string/title"
+        android:textSize="50sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="100dp"
-        android:textSize="50sp" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/word_book_button"
         style="@style/menu_button"
-        android:text="@string/word_book"
         android:background="@drawable/menu_button"
+        android:text="@string/word_book"
         app:icon="@drawable/word_book_icon"
         app:iconGravity="start"
         app:iconTint="#9999"
         app:layout_constraintEnd_toEndOf="@id/end_line"
         app:layout_constraintStart_toStartOf="@id/start_line"
-        app:layout_constraintTop_toBottomOf="@id/title"/>
+        app:layout_constraintTop_toBottomOf="@id/title" />
 
     <Button
         android:id="@+id/check_button"
@@ -52,30 +51,28 @@
         app:iconTint="#9999"
         app:layout_constraintEnd_toEndOf="@id/end_line"
         app:layout_constraintStart_toStartOf="@id/start_line"
-        app:layout_constraintTop_toBottomOf="@id/word_book_button"/>
-
+        app:layout_constraintTop_toBottomOf="@id/word_book_button" />
 
     <TextView
         android:id="@+id/total"
         style="@style/menu_result"
         android:layout_marginTop="50dp"
-        app:layout_constraintStart_toStartOf="@id/start_line"
         app:layout_constraintEnd_toEndOf="@id/end_line"
-        app:layout_constraintTop_toBottomOf="@id/check_button"/>
+        app:layout_constraintStart_toStartOf="@id/start_line"
+        app:layout_constraintTop_toBottomOf="@id/check_button" />
 
     <TextView
         android:id="@+id/complete"
         style="@style/menu_result"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/left"
-        app:layout_constraintTop_toBottomOf="@id/total"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/total" />
 
     <TextView
         android:id="@+id/left"
         style="@style/menu_result"
-        app:layout_constraintStart_toEndOf="@id/complete"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/total"/>
-
+        app:layout_constraintStart_toEndOf="@id/complete"
+        app:layout_constraintTop_toBottomOf="@id/total" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

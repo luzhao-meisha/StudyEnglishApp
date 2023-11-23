@@ -1,7 +1,6 @@
 package com.bambi.studyenglishapp.model
 
 import android.util.Log
-import androidx.room.Query
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

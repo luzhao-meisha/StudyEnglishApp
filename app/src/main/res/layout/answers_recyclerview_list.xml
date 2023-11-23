@@ -1,34 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/white"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
-
+    android:background="@color/white">
 
     <ImageView
         android:id="@+id/answer_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="8dp"
         android:background="@color/white"
-        app:layout_constraintTop_toTopOf="parent"
+        android:padding="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/count_title"
         style="@style/details_answer_count_title_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="8dp"
         android:background="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/answer_image"
-        app:layout_constraintStart_toStartOf="parent"
+        android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:text="1回目"/>
-
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/answer_image"
+        tools:text="1回目" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

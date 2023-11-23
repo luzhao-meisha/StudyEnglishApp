@@ -1,17 +1,12 @@
 package com.bambi.studyenglishapp.ui.check
 
-import android.util.Log
-import android.view.View
-import android.widget.Button
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bambi.studyenglishapp.model.WordData
-import com.bambi.studyenglishapp.model.WordDataDao
 import com.bambi.studyenglishapp.model.WordDataRepository
 import kotlinx.coroutines.launch
-import kotlin.random.Random
 
 class CheckViewModel(private val wordDataRepository: WordDataRepository) : ViewModel() {
 
@@ -22,10 +17,6 @@ class CheckViewModel(private val wordDataRepository: WordDataRepository) : ViewM
      * shuffleListを作成する
      * **/
     fun shuffleList(): List<WordData> {
-
-        //データ数取得
-        val size = wordDataRepository.count()
-        Log.d("レコードの総数", size.toString())
 
         //全てのデータをシャッフル
         val wordList = wordDataRepository.getAllWordData().toMutableList().apply { shuffle() }

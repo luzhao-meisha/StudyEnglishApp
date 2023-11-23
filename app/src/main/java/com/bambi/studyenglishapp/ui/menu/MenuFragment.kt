@@ -32,26 +32,24 @@ class MenuFragment : Fragment() {
 
         binding.wordBookButton.setOnClickListener {
             findNavController().navigate(R.id.action_menuFragment_to_wordBookFragment)
-
         }
 
         binding.checkButton.setOnClickListener {
             findNavController().navigate(R.id.action_menuFragment_to_checkFragment)
-
         }
 
         lifecycleScope.launch {
-                withContext(Dispatchers.IO) {
-                    val totalCount = wordDataRepository.count()
-                    val completedCount = wordDataRepository.getAllWordData().count { it.pass }
-                    val leftCount = wordDataRepository.getAllWordData().count { it.pass.not() }
+            withContext(Dispatchers.IO) {
+                val totalCount = wordDataRepository.count()
+                val completedCount = wordDataRepository.getAllWordData().count { it.pass }
+                val leftCount = wordDataRepository.getAllWordData().count { it.pass.not() }
 
-                    withContext(Dispatchers.Main) {
-                        binding.total.text = getString(R.string.total, totalCount.toString())
-                        binding.complete.text = getString(R.string.complete, completedCount.toString())
-                        binding.left.text = getString(R.string.left, leftCount.toString())
-                    }
+                withContext(Dispatchers.Main) {
+                    binding.total.text = getString(R.string.total, totalCount.toString())
+                    binding.complete.text = getString(R.string.complete, completedCount.toString())
+                    binding.left.text = getString(R.string.left, leftCount.toString())
                 }
+            }
         }
 
         return view

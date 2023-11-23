@@ -18,7 +18,6 @@ import com.bambi.studyenglishapp.model.WordData
 import com.bambi.studyenglishapp.model.WordDataRepository
 import com.bambi.studyenglishapp.model.WordDatabase
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.random.Random
@@ -160,7 +159,6 @@ class CheckFragment : Fragment() {
         const val INCORRECT = 0
         const val CORRECT = 1
     }
-
 
 }
 

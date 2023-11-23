@@ -1,13 +1,10 @@
 package com.bambi.studyenglishapp.model
 
-import androidx.annotation.Nullable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverter
 import androidx.room.TypeConverters
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 
 data class WordList(
     val values: List<List<String>>

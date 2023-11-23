@@ -1,7 +1,6 @@
 package com.bambi.studyenglishapp.ui.worddetails
 
 import android.graphics.drawable.Drawable
-import android.media.Image
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -37,14 +36,13 @@ class WordDetailsFragment : Fragment() {
             layoutManager = GridLayoutManager(requireContext(), 5)
         }
 
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val position = arguments?.getInt("position",-1)
+        val position = arguments?.getInt("position", -1)
         position?.let {
             viewModel.loadDetails(it)
             viewModel.getAnswers(it)
@@ -69,28 +67,26 @@ class WordDetailsFragment : Fragment() {
         viewModel.answers.observe(viewLifecycleOwner) { answers ->
             answers?.forEach {
                 when (it) {
-                        1 -> ContextCompat.getDrawable(requireContext(), R.drawable.answer_correct)
-                            ?.let { correct -> imageList.add(correct) }
-                        0 -> ContextCompat.getDrawable(requireContext(), R.drawable.answer_incorrect)
-                            ?.let { incorrect -> imageList.add(incorrect) }
+                    1 -> ContextCompat.getDrawable(requireContext(), R.drawable.answer_correct)
+                        ?.let { correct -> imageList.add(correct) }
+
+                    0 -> ContextCompat.getDrawable(requireContext(), R.drawable.answer_incorrect)
+                        ?.let { incorrect -> imageList.add(incorrect) }
                 }
             }
 
-//            for(i in 1..10){
+//            for(i in 1..2){
+//                ContextCompat.getDrawable(requireContext(), R.drawable.answer_correct)?.let { correct -> imageList.add(correct) }
+//            }
+//            for(i in 1..9){
 //                ContextCompat.getDrawable(requireContext(), R.drawable.answer_correct)?.let { correct -> imageList.add(correct) }
 //            }
 
-            binding.answers.adapter = AnswersRecyclerView(requireContext(),imageList.toList())
-
+            binding.answers.adapter = AnswersRecyclerView(requireContext(), imageList.toList())
         }
 
         binding.backButton.setOnClickListener {
             navController.popBackStack()
         }
-
-
-
     }
-
-
 }

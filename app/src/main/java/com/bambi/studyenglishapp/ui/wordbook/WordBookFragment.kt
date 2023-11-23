@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import androidx.activity.addCallback
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
@@ -59,13 +58,11 @@ class WordBookFragment : Fragment() {
 
         var wordDataList: List<WordData> = emptyList()
 
-
         lifecycleScope.launch {
 
             withContext(Dispatchers.IO) {
                 wordListAdapter = WordListAdapter()
                 viewModel.fetchWordData()
-
             }
 
             //recyclerview描画
@@ -115,11 +112,13 @@ class WordBookFragment : Fragment() {
                                         wordListAdapter.setWords(data)
                                     }
                                 }
+
                                 ADD_DATE_ORDER -> {
                                     viewModel.addDateOrderData.observe(viewLifecycleOwner) { data ->
                                         wordListAdapter.setWords(data)
                                     }
                                 }
+
                                 INCORRECT_ORDER -> {
                                     viewModel.incorrectOrderData.observe(viewLifecycleOwner) { data ->
                                         wordListAdapter.setWords(data)
@@ -127,6 +126,7 @@ class WordBookFragment : Fragment() {
                                 }
                             }
                         }
+
                         override fun onNothingSelected(parent: AdapterView<*>?) {
                         }
                     }
